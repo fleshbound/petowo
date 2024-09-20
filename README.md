@@ -1,92 +1,152 @@
-# Web
+# PETOWO
+
+### a. Цель работы, решаемая проблема/предоставляемая возможность
+
+Цель работы --- разработка Web-приложения для организации выставок животных различных видов.
+
+В 21 веке наблюдается рост числа домашних животных, а также клубов --- объединений людей, которые занимаются разведением питомцев; то есть увеличивается количество заводчиков, нуждающихся в организации выставок.
+
+Данное приложение предоставляет возможность проведения онлайн--выставок различных видов животных с автоматизацией процесса организации мероприятий (запись, сбор оценок, вычисление результатов).
+
+### b. Краткий перечень функциональных требований
+
+К разрабатываемой системе выдвигаются перечисленные далее функциональные требования.
+
+Проведение выставки включает в себя следующие необходимые действия пользователей:
+
+1. авторизация;
+0. создание выставки (организатором);
+0. запуск, завершение выставки (организатором);
+0. добавление судьи на выставку (организатором);
+0. добавление животного (заводчиком);
+0. запись животного на выставку (заводчиком);
+0. оценка участников выставки (судьей);
+0. просмотр результатов завершенной выставки.
+
+Возможными действиями заводчика являются следующие:
+
+1. удаление животного;
+0. отписка животного от выставки;
+0. просмотр дипломов животного.
+
+Возможным действием организатора является удаление судьи с выставки.
+Возможным действием гостя и всех остальных пользователей является просмотр списка выставок.
+
+При разработке системы необходимо учитывать следующие правила организации выставок животных:
+
+1. результаты выставки доступны для просмотра пользователям только после ее завершения;
+0. удалить животное нельзя, если оно является участником хотя бы одной запущенной выставки;
+0. записать животное на неоткрытую выставку нельзя;
+0. записать животное можно на выставку только его вида (породы);
+0. записать животное на выставку можно только в случае допустимых отклонений от стандарта;
+0. отписать животное от выставки можно только если оно на нее записано и при условии, что она открыта;
+0. запустить выставку можно, если есть хотя бы один приглашенный судья и не менее одного участников;
+0. выставка завершается только при условии, что каждый судья поставил оценку каждому участнику выставки;
+0. удалить судью с выставки можно только в том случае, если выставка открыта;
+0. добавить судью на выставку можно, если выставка открыта и он не был добавлен ранее.
+
+### c. Use-Case - диаграмма
+
+На рисунке ниже представлена Use-Case диаграмма.
+
+![usecase.png](./img/usecase.png)
+
+### d. Формализация ключевых бизнес-процессов
+
+На рисунке ниже представлена диаграмма процесса входа в систему и выполнения начальных действий.
+
+![bpmn_enter.png](./img/bpmn_enter.png)
+
+### e. Пользовательские сценарии
+
+1. ПРОСМОТР ВЫСТАВОК
+	1. Пользователь входит как Гость/Заводчик/Судья/Организатор
+	2. Гость/Заводчик/Судья/Организатор смотрит список выставок
+2. ДОБАВЛЕНИЕ ЖИВОТНОГО
+	1. Пользователь входит как Заводчик
+	2. Заводчик добавляет животное
+3. СОЗДАНИЕ ВЫСТАВКИ
+	1. Пользователь входит как Организатор
+	2. Организатор создает выставку
+
+#### Сложные сценарии
+
+4. УДАЛЕНИЕ СУДЬИ
+	1. Пользователь входит как Организатор
+	2. Организатор выбирает выставку
+	3. Организатор хочет удалить судья
+	4. Прервать действие, если выставка в состоянии "Запущена" или "Завершена"
+	5. Прервать действие, если на выставке нет приглашенных судьей
+	6. Организатор выбрал судью
+	7. Удалить судью с выставки
+5. ПРИГЛАШЕНИЕ СУДЬИ
+	1. Пользователь входит как Организатор
+	2. Организатор выбирает выставку
+	3. Организатор хочет добавить судью на выставку
+	4. Прервать действие, если выставка в состоянии "Запущена" или "Завершена"
+	5. Прервать действие, если судья приглашен на выбранную выставку
+	6. Добавить судью на выставку (пометить его как приглашенного)
+6. РЕДАКТИРОВАНИЕ ВЫСТАВКИ
+	1. Пользователь входит в систему как Организатор
+	2. Организатор выбирает выставку
+	3. Организатор хочет редактировать информацию о выставке
+	4. Прервать действие, если выставка в состоянии "Запущена" или "Завершена"
+	5. Редактировать информацию о выставке
+6. ЗАПУСК ВЫСТАВКИ
+	1. Пользователь входит в систему как Организатор
+	2. Пользователь выбирает выставку
+	3. Организатор хочет запустить выставку
+	4. Прервать действие, если выставка в состоянии "Завершена"
+	5. Прервать действие, если на выставку записано менее 3 участников
+	6. Прервать действие, если нет приглашенных судей
+	7. Отметить выставку запущенной
+7. ЗАВЕРШЕНИЕ ВЫСТАВКИ
+	1. Пользователь входит в систему как Организатор
+	2. Организатор выбирает выставку
+	3. Организатор хочет завершить выставку
+	4. Прервать действие, если выставка не в состоянии "Запущена"
+	5. Прервать действие, если есть хотя бы один судья, не оценивший всех участников
+	6. Перевести выставку в состояние "Завершена"
+	7. Вычислить результаты выставки
+8. УДАЛЕНИЕ ЖИВОТНОГО
+	1. Пользователь входит в систему как Заводчик
+	2. Заводчик хочет удалить животное
+	3. Прервать действие, если заводчик не имеет животных
+	4. Заводчик выбирает животное
+	5. Прервать действие, если животное является участником хотя бы одной выставки в состоянии "Запущена"
+	6. Отметить данные о результатах выставок в состоянии "Завершена", в которых участвовало животное, как архивные
+	7. Удалить животное из системы
+9. ЗАПИСЬ ЖИВОТНОГО НА ВЫСТАВКУ
+	1. Пользователь входит в в систему как Заводчик
+	2. Заводчик хочет записать животных на выставку
+	3. Прервать действие, если заводчик не имеет животных
+	4. Прервать действие, если заводчик не имеет животных, подходящих по виду и/или породе
+	5. Заводчик выбирает животное
+	6. Прервать действие, если выбранное животное уже записано на выставку
+	7. Прервать действие, если выбранное животное не соответствует стандарту выставки
+	8. Записать животное на выставку
+10. ПРОСМОТР РЕЗУЛЬТАТОВ ВЫСТАВКИ
+	1. Пользователь входит как Гость/Заводчик/Судья/Организатор
+	2. Пользователь выбирает выставку
+	3. Пользователь хочет посмотреть результаты выставки
+	4. Прервать действие, если выставка не в состоянии "Завершена"
+	5. Сформировать отчет о результатах выставки
+	6. Предоставить отчет пользователю
+
+### f. ER-диаграмма сущностей
+
+На рисунке ниже представлена ER-диаграмма сущностей.
+
+![erdiagram.png](./img/erdiagram.png)
+
+### g. Диаграмма классов сущностей БД
+
+![db_er_diagram.png](./img/db_er_diagram.png)
+
+### h. Верхнеуровневое разбиение на компоненты
+
+![components.png](./img/components.png)
+
+### i. Экраны Web-приложения (эскизы)
 
 
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://git.iu7.bmstu.ru/avp21u792/web.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://git.iu7.bmstu.ru/avp21u792/web/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
