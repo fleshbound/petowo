@@ -149,4 +149,16 @@
 
 ### i. Экраны Web-приложения (эскизы)
 
+На рисунках ниже представлены экраны разрабатываемого Web-приложения.
 
+![screen_1,jpg](./img/screen_1.jpg)
+
+![screen_2_3,jpg](./img/screen_2_3.jpg)
+
+![screen_4_5,jpg](./img/screen_4_5.jpg)
+
+![screen_6_7,jpg](./img/screen_6_7.jpg)
+
+![screen_8_9,jpg](./img/screen_8_9.jpg)
+
+![screen_10.jpg](./img/screen_10.jpg)
