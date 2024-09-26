@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: FastAPI
+  title: petowo
   version: 0.1.0
 paths:
   /:
@@ -13,12 +13,12 @@ paths:
           content:
             application/json:
               schema: {}
-  /animal:
+  /animals:
     post:
       tags:
-        - Animal
+        - animals
       summary: Create Animal
-      operationId: create_animal_animal_post
+      operationId: create_animal_animals_post
       requestBody:
         required: true
         content:
@@ -40,9 +40,9 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     get:
       tags:
-        - Animal
+        - animals
       summary: Get Animals
-      operationId: get_animals_animal_get
+      operationId: get_animals_animals_get
       parameters:
         - name: skip
           in: query
@@ -74,42 +74,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-  /animal/user/{user_id}:
-    get:
-      tags:
-        - Animal
-      summary: Get Animal By User
-      operationId: get_animal_by_user_animal_user__user_id__get
-      parameters:
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: integer
-            exclusiveMinimum: false
-            title: User Id
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AnimalSchema'
-                title: Response Get Animal By User Animal User  User Id  Get
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-  /animal/{animal_id}:
+  /animals/{animal_id}:
     delete:
       tags:
-        - Animal
+        - animals
       summary: Delete Animal
-      operationId: delete_animal_animal__animal_id__delete
+      operationId: delete_animal_animals__animal_id__delete
       parameters:
         - name: animal_id
           in: path
@@ -133,9 +103,9 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     get:
       tags:
-        - Animal
+        - animals
       summary: Get Animal By Id
-      operationId: get_animal_by_id_animal__animal_id__get
+      operationId: get_animal_by_id_animals__animal_id__get
       parameters:
         - name: animal_id
           in: path
@@ -157,12 +127,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-  /user:
+  /animals/{animal_id}/shows:
+    get:
+      tags:
+        - animals
+      summary: Get Animal Shows (registered)
+      operationId: get_animal_shows_animals__animal_id__shows_delete
+      parameters:
+        - name: animal_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            exclusiveMinimum: false
+            title: Animal Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ID'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users:
     post:
       tags:
-        - User
+        - users
       summary: Create User
-      operationId: create_user_user_post
+      operationId: create_user_users_post
       requestBody:
         required: true
         content:
@@ -184,9 +183,9 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     get:
       tags:
-        - User
+        - users
       summary: Get User All
-      operationId: get_user_all_user_get
+      operationId: get_user_all_users_get
       parameters:
         - name: skip
           in: query
@@ -218,12 +217,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-  /user/{user_id}:
+  /users/{user_id}:
     get:
       tags:
-        - User
+        - users
       summary: Get User By Id
-      operationId: get_user_by_id_user__user_id__get
+      operationId: get_user_by_id_users__user_id__get
       parameters:
         - name: user_id
           in: path
@@ -247,9 +246,9 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     post:
       tags:
-        - User
+        - users
       summary: Update User
-      operationId: update_user_user__user_id__post
+      operationId: update_user_users__user_id__post
       parameters:
         - name: user_id
           in: path
@@ -277,12 +276,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-  /show:
+  /users/{user_id}/animals:
     get:
       tags:
-        - Show
+        - users
+      summary: Get Animals By User
+      operationId: get_animals_by_user_users__user_id__get
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 0
+            title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSchema'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /shows:
+    get:
+      tags:
+        - shows
       summary: Get Shows
-      operationId: get_shows_show_get
+      operationId: get_shows_shows_get
       parameters:
         - name: skip
           in: query
@@ -314,12 +340,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-  /show/{show_id}/results:
+  /shows/{show_id}/results:
     get:
       tags:
-        - Show
+        - shows
       summary: Get Show Result
-      operationId: get_show_result_show__show_id__results_get
+      operationId: get_show_result_shows__show_id__results_get
       parameters:
         - name: show_id
           in: path
@@ -341,12 +367,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-  /show/{show_id}/animals:
+  /shows/{show_id}/animals:
     get:
       tags:
-        - Show
+        - shows
       summary: Get Show Animals
-      operationId: get_show_animals_show__show_id__animals_get
+      operationId: get_show_animals_shows__show_id__animals_get
       parameters:
         - name: show_id
           in: path
@@ -371,12 +397,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-  /show/{show_id}/stop:
-    post:
+  /shows/{show_id}:
+    patch:
       tags:
-        - Show
-      summary: Stop Show
-      operationId: stop_show_show__show_id__stop_post
+        - shows
+      summary: Change Show Status
+      operationId: patch_show_status_shows__show_id__patch
       parameters:
         - name: show_id
           in: path
@@ -385,25 +411,41 @@ paths:
             type: integer
             exclusiveMinimum: false
             title: Show Id
+      requestBody:
+        description: change the show status
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShowStatusUpdate'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ShowStatusUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ShowStatusUpdate'
+        required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ShowSchemaReport'
+                type: object
+                items:
+                  $ref: '#/components/schemas/AnimalSchema'
+                title: Response Get Show Animals Show  Show Id  Animals Get
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-  /show/{show_id}/start:
-    post:
+  /shows/{show_id}/registration:
+    patch:
       tags:
-        - Show
-      summary: Start Show
-      operationId: start_show_show__show_id__start_post
+        - shows
+      summary: Change Registration Status
+      operationId: registration_show_shows__show_id__patch
       parameters:
         - name: show_id
           in: path
@@ -412,149 +454,26 @@ paths:
             type: integer
             exclusiveMinimum: false
             title: Show Id
+      requestBody:
+        description: change show registration status
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShowRegistrationUpdate'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/ShowRegistrationUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ShowRegistrationUpdate'
+        required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ShowSchema'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-  /show/{show_id}/animals/{animal_id}/register:
-    post:
-      tags:
-        - Show
-      summary: Start Show
-      operationId: start_show_show__show_id__animals__animal_id__register_post
-      parameters:
-        - name: show_id
-          in: path
-          required: true
-          schema:
-            type: integer
-            exclusiveMinimum: false
-            title: Show Id
-        - name: animal_id
-          in: path
-          required: true
-          schema:
-            type: integer
-            exclusiveMinimum: false
-            title: Animal Id
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ShowRegisterAnimalResult'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-  /show/{show_id}/animals/{animal_id}/unregister:
-    post:
-      tags:
-        - Show
-      summary: Start Show
-      operationId: start_show_show__show_id__animals__animal_id__unregister_post
-      parameters:
-        - name: show_id
-          in: path
-          required: true
-          schema:
-            type: integer
-            exclusiveMinimum: false
-            title: Show Id
-        - name: animal_id
-          in: path
-          required: true
-          schema:
-            type: integer
-            exclusiveMinimum: false
-            title: Animal Id
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ShowRegisterAnimalResult'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-  /show/{show_id}/users/{user_id}/register:
-    post:
-      tags:
-        - Show
-      summary: Start Show
-      operationId: start_show_show__show_id__users__user_id__register_post
-      parameters:
-        - name: show_id
-          in: path
-          required: true
-          schema:
-            type: integer
-            exclusiveMinimum: false
-            title: Show Id
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: integer
-            exclusiveMinimum: false
-            title: User Id
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ShowRegisterAnimalResult'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-  /show/{show_id}/users/{user_id}/unregister:
-    post:
-      tags:
-        - Show
-      summary: Start Show
-      operationId: start_show_show__show_id__users__user_id__unregister_post
-      parameters:
-        - name: show_id
-          in: path
-          required: true
-          schema:
-            type: integer
-            exclusiveMinimum: false
-            title: Show Id
-        - name: user_id
-          in: path
-          required: true
-          schema:
-            type: integer
-            exclusiveMinimum: false
-            title: User Id
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ShowRegisterAnimalResult'
+                type: object
         '422':
           description: Validation Error
           content:
@@ -564,7 +483,7 @@ paths:
   /auth/jwt/login:
     post:
       tags:
-        - Auth
+        - auth
       summary: Login
       operationId: login_auth_jwt_login_post
       requestBody:
@@ -589,7 +508,7 @@ paths:
   /auth/jwt/logout:
     post:
       tags:
-        - Auth
+        - auth
       summary: Logout
       operationId: logout_auth_jwt_logout_post
       parameters:
@@ -611,12 +530,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
-  /score:
+  /scores:
     post:
       tags:
-        - Score
+        - scores
       summary: Create Score
-      operationId: create_score_score_post
+      operationId: create_score_scores_post
       requestBody:
         content:
           application/json:
@@ -638,6 +557,18 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ShowStatusUpdate:
+      properties:
+        type:
+          $ref: '#/components/schemas/ShowStatusUpdateType'
+    ShowRegistrationUpdate:
+      properties:
+        type:
+          $ref: '#/components/schemas/RegistrationType'
+        subject:
+          $ref: '#/components/schemas/RegistrationSubject'
+        id:
+          $ref: '#/components/schemas/ID'
     AnimalName:
       properties:
         value:
@@ -851,6 +782,24 @@ components:
       required:
         - value
       title: ID
+    RegistrationType:
+      type: string
+      enum:
+        - register
+        - unregister
+      title: RegistrationType
+    RegistrationSubject:
+      type: string
+      enum:
+        - animal
+        - user
+      title: RegistrationSubject
+    ShowStatusUpdateType:
+      type: string
+      enum:
+        - start
+        - stop
+      title: ShowStatusUpdateType
     Length:
       properties:
         value:
