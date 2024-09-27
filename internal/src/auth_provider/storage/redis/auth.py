@@ -19,16 +19,16 @@ class SessionStorage(ISessionStorage):
         except RedisError:
             raise AuthStorageError(detail='redis client error')
         if res == '':
-            raise AuthStorageError(detail='no auth session data')
+            raise AuthStorageError(detail='no auth_provider session data')
         res_dict = json.loads(res)
-        return AuthSession.parse_obj(res_dict)
+        return AuthSession.model_validate(res_dict)
 
     def put(self, refresh_token: str, session: AuthSession, expire_dt: datetime.timedelta) -> None:
-        json_authsession = json.dumps(session.dict())
+        json_authsession = json.dumps(session.model_dump(mode='json'))
         try:
             self.redis_client.set(refresh_token, json_authsession, ex=expire_dt)
-        except RedisError:
-            raise AuthStorageError(detail='redis client error')
+        except RedisError as e:
+            raise AuthStorageError(detail=f'redis client error: {str(e)}')
 
     def delete(self, refresh_token: str) -> None:
         self.redis_client.delete(refresh_token)

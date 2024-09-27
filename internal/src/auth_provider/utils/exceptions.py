@@ -1,13 +1,11 @@
-from typing import Any, Optional, Dict
-
-from fastapi import HTTPException, status
+from typing import Any
 
 
-class AuthProviderError(HTTPException):
-    def __init__(self, detail: Any = None, headers: Optional[Dict[str, Any]] = None) -> None:
-        super().__init__(status.HTTP_400_BAD_REQUEST, detail, headers)
+class AuthProviderError(Exception):
+    def __init__(self, detail: Any = None) -> None:
+        super().__init__(detail)
 
 
-class AuthStorageError(HTTPException):
-    def __init__(self, detail: Any = None, headers: Optional[Dict[str, Any]] = None) -> None:
-        super().__init__(status.HTTP_400_BAD_REQUEST, detail, headers)
+class AuthStorageError(Exception):
+    def __init__(self, detail: Any = None) -> None:
+        super().__init__(detail)

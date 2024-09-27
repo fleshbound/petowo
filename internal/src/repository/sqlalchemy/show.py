@@ -1,11 +1,12 @@
 import inspect
+import logging
 from contextlib import AbstractContextManager
 from typing import List, Callable, cast
 
 from psycopg2.errors import UniqueViolation
 from pydantic import NonNegativeInt, BaseModel
 from sqlalchemy import insert, update, select
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlalchemy.orm import Session
 
 from core.show.repository.show import IShowRepository
@@ -22,32 +23,44 @@ class SqlAlchemyShowRepository(IShowRepository):
         self.session_factory = session_factory
 
     def get_all(self, skip: int = 0, limit: int = 100) -> List[ShowSchema]:
-        with self.session_factory() as session:
-            query = select(ShowORM).offset(skip).limit(limit)
-            rows = session.execute(query).scalars().all()
-            return [ShowSchema.model_validate(row.to_schema(), from_attributes=True) for row in rows]
+        try:
+            with self.session_factory() as session:
+                query = select(ShowORM).offset(skip).limit(limit)
+                rows = session.execute(query).scalars().all()
+                return [ShowSchema.model_validate(row.to_schema(), from_attributes=True) for row in rows]
+        except OperationalError as e:
+            logging.error('DB connection error')
+            raise e
 
     def get_by_id(self, id: NonNegativeInt) -> ShowSchema:
-        with self.session_factory() as session:
-            query = select(ShowORM).filter_by(id=id)
-            row = session.execute(query).scalar()
-            if row is None:
-                raise NotFoundRepoError(detail=f"not found id : {id}")
-            return ShowSchema.model_validate(row.to_schema(), from_attributes=True)
+        try:
+            with self.session_factory() as session:
+                query = select(ShowORM).filter_by(id=id)
+                row = session.execute(query).scalar()
+                if row is None:
+                    raise NotFoundRepoError(detail=f"not found id : {id}")
+                return ShowSchema.model_validate(row.to_schema(), from_attributes=True)
+        except OperationalError as e:
+            logging.error('DB connection error')
+            raise e
 
     def create(self, other: ShowSchema) -> ShowSchema:
-        with self.session_factory() as session:
-            other_dict = self.get_dict(other, exclude=['id'])
-            stmt = insert(ShowORM).values(other_dict).returning(ShowORM.id)
-            try:
-                result = session.execute(stmt)
-                session.commit()
-            except IntegrityError as e:
-                if isinstance(e.orig, UniqueViolation):
-                    raise DuplicatedRepoError(detail=str(e.orig))
-                raise ValidationRepoError(detail=str(e.orig))
-            row = result.fetchone()
-            return self.get_by_id(row[0])
+        try:
+            with self.session_factory() as session:
+                other_dict = self.get_dict(other, exclude=['id'])
+                stmt = insert(ShowORM).values(other_dict).returning(ShowORM.id)
+                try:
+                    result = session.execute(stmt)
+                    session.commit()
+                except IntegrityError as e:
+                    if isinstance(e.orig, UniqueViolation):
+                        raise DuplicatedRepoError(detail=str(e.orig))
+                    raise ValidationRepoError(detail=str(e.orig))
+                row = result.fetchone()
+                return self.get_by_id(row[0])
+        except OperationalError as e:
+            logging.error('DB connection error')
+            raise e
 
     @staticmethod
     def get_dict(other: BaseModel, exclude: List[str] | None = None) -> dict:
@@ -65,52 +78,72 @@ class SqlAlchemyShowRepository(IShowRepository):
         return dct
 
     def update(self, other: ShowSchema) -> ShowSchema:
-        with self.session_factory() as session:
-            other_dict = self.get_dict(other, exclude=['id'])
-            stmt = update(ShowORM).where(cast("ColumnElement[bool]", other.id.eq_int(ShowORM.id))).values(
-                other_dict).returning(ShowORM.id)
-            try:
-                result = session.execute(stmt)
-                session.commit()
-            except IntegrityError as e:
-                if isinstance(e.orig, UniqueViolation):
-                    raise DuplicatedRepoError(detail=str(e.orig))
-                raise ValidationRepoError(detail=str(e.orig))
-            row = result.fetchone()
-            if row is None:
-                raise NotFoundRepoError(detail=f"not found id : {id}")
+        try:
+            with self.session_factory() as session:
+                other_dict = self.get_dict(other, exclude=['id'])
+                stmt = update(ShowORM).where(cast("ColumnElement[bool]", other.id.eq_int(ShowORM.id))).values(
+                    other_dict).returning(ShowORM.id)
+                try:
+                    result = session.execute(stmt)
+                    session.commit()
+                except IntegrityError as e:
+                    if isinstance(e.orig, UniqueViolation):
+                        raise DuplicatedRepoError(detail=str(e.orig))
+                    raise ValidationRepoError(detail=str(e.orig))
+                row = result.fetchone()
+                if row is None:
+                    raise NotFoundRepoError(detail=f"not found id : {id}")
 
-            return self.get_by_id(row[0])
+                return self.get_by_id(row[0])
+        except OperationalError as e:
+            logging.error('DB connection error')
+            raise e
 
     def delete(self, id: NonNegativeInt) -> None:
-        with self.session_factory() as session:
-            query = select(ShowORM).filter_by(id=id)
-            row = session.execute(query).scalar()
-            if row is None:
-                raise NotFoundRepoError(detail=f"not found id : {id}")
-            session.delete(row)
-            session.commit()
+        try:
+            with self.session_factory() as session:
+                query = select(ShowORM).filter_by(id=id)
+                row = session.execute(query).scalar()
+                if row is None:
+                    raise NotFoundRepoError(detail=f"not found id : {id}")
+                session.delete(row)
+                session.commit()
+        except OperationalError as e:
+            logging.error('DB connection error')
+            raise e
 
     def get_by_standard_id(self, standard_id: NonNegativeInt) -> List[ShowSchema]:
-        with self.session_factory() as session:
-            query = select(ShowORM).filter_by(standard_id=standard_id)
-            res = session.execute(query).scalars().all()
-            if len(res) == 0:
-                raise NotFoundRepoError(detail=f"not found by standard_id: {standard_id}")
-            return [ShowSchema.model_validate(row.to_schema(), from_attributes=True) for row in res]
+        try:
+            with self.session_factory() as session:
+                query = select(ShowORM).filter_by(standard_id=standard_id)
+                res = session.execute(query).scalars().all()
+                if len(res) == 0:
+                    raise NotFoundRepoError(detail=f"not found by standard_id: {standard_id}")
+                return [ShowSchema.model_validate(row.to_schema(), from_attributes=True) for row in res]
+        except OperationalError as e:
+            logging.error('DB connection error')
+            raise e
 
     def get_by_breed_id(self, breed_id: NonNegativeInt) -> List[ShowSchema]:
-        with self.session_factory() as session:
-            query = select(ShowORM).filter_by(breed_id=breed_id)
-            res = session.execute(query).scalars().all()
-            if len(res) == 0:
-                raise NotFoundRepoError(detail=f"not found by breed_id: {breed_id}")
-            return [ShowSchema.model_validate(row.to_schema(), from_attributes=True) for row in res]
+        try:
+            with self.session_factory() as session:
+                query = select(ShowORM).filter_by(breed_id=breed_id)
+                res = session.execute(query).scalars().all()
+                if len(res) == 0:
+                    raise NotFoundRepoError(detail=f"not found by breed_id: {breed_id}")
+                return [ShowSchema.model_validate(row.to_schema(), from_attributes=True) for row in res]
+        except OperationalError as e:
+            logging.error('DB connection error')
+            raise e
 
     def get_by_species_id(self, species_id: NonNegativeInt) -> List[ShowSchema]:
-        with self.session_factory() as session:
-            query = select(ShowORM).filter_by(species_id=species_id)
-            res = session.execute(query).scalars().all()
-            if len(res) == 0:
-                raise NotFoundRepoError(detail=f"not found by species_id: {species_id}")
-            return [ShowSchema.model_validate(row.to_schema(), from_attributes=True) for row in res]
+        try:
+            with self.session_factory() as session:
+                query = select(ShowORM).filter_by(species_id=species_id)
+                res = session.execute(query).scalars().all()
+                if len(res) == 0:
+                    raise NotFoundRepoError(detail=f"not found by species_id: {species_id}")
+                return [ShowSchema.model_validate(row.to_schema(), from_attributes=True) for row in res]
+        except OperationalError as e:
+            logging.error('DB connection error')
+            raise e

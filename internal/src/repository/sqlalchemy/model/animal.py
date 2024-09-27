@@ -5,7 +5,7 @@ from sqlalchemy.orm import mapped_column, Mapped
 
 from core.animal.schema.animal import AnimalSchema
 from core.utils.types import Sex, AnimalName, Datetime, Weight, Height, Length, ID
-from repository.sqlalchemy.model.base import Base
+from .base import Base
 
 
 class AnimalORM(Base):

@@ -1,3 +1,4 @@
+import logging
 from typing import List
 
 from core.animal.schema.animal import AnimalSchema
@@ -16,15 +17,19 @@ class StandardService(IStandardService):
         self.standard_repo = standard_repo
 
     def get_by_breed_id(self, breed_id: ID) -> List[StandardSchema]:
+        logging.info(f'get standards by breed_id={breed_id.value}')
         return self.standard_repo.get_by_breed_id(breed_id.value)
 
     def get_all(self, skip: NonNegativeInt = 0, limit: PositiveInt = 100) -> List[StandardSchema]:
+        logging.info(f'get all standards, skip={skip} limit={limit}')
         return self.standard_repo.get_all(skip, limit)
 
     def get_by_id(self, id: ID) -> StandardSchema:
+        logging.info(f'get standard by id={id.value}')
         return self.get_by_id(id.value)
 
     def create(self, standard_create: StandardSchemaCreate) -> StandardSchema:
+        logging.info('create standard')
         new_standard = StandardSchema.from_create(standard_create)
         return self.standard_repo.create(new_standard)
 
@@ -64,7 +69,7 @@ class StandardService(IStandardService):
             raise CheckAnimalStandardError(animal_id=animal.id, standard_id=standard.id, property_name='height')
 
     def check_animal_by_standard(self, standard_id: ID, animal: AnimalSchema):
-        cur_standard = self.standard_repo.get_by_id(standard_id)
+        cur_standard = self.standard_repo.get_by_id(standard_id.value)
 
         if cur_standard.breed_id != animal.breed_id:
             raise CheckAnimalBreedError(animal_id=animal.id, standard_id=standard_id)
