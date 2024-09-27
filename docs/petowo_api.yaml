@@ -889,6 +889,8 @@ components:
           $ref: '#/components/schemas/Height'
         length:
           $ref: '#/components/schemas/Length'
+        photo:
+          $ref: '#/components/schemas/Photo'
         has_defects:
           type: boolean
           title: Has Defects
@@ -927,6 +929,8 @@ components:
           $ref: '#/components/schemas/Height'
         length:
           $ref: '#/components/schemas/Length'
+        photo:
+          $ref: '#/components/schemas/Photo'
         has_defects:
           type: boolean
           title: Has Defects
@@ -956,12 +960,12 @@ components:
           $ref: '#/components/schemas/Height'
         length:
           $ref: '#/components/schemas/Length'
+        photo:
+          $ref: '#/components/schemas/Photo'
         has_defects:
           type: boolean
           title: Has Defects
       type: object
-      required:
-        - animal_id
       title: AnimalSchemaUpdate
     AnimalSchemaDelete:
       properties:
@@ -1094,6 +1098,15 @@ components:
       required:
         - value
       title: ID
+    Photo:
+      properties:
+        value:
+          type: string
+          title: Photo
+      type: object
+      required:
+        - value
+      title: Photo
     RegistrationType:
       type: string
       enum:
