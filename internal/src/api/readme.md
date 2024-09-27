@@ -1,32 +1,32 @@
 ```
-GET     /show - получить список всех выставок
-POST    /show - создать выставку
-GET     /show/{show_id}/result - получить результаты выставки
-GET     /show/{show_id}/animals - получить список участников выставки
-POST    /show/{show_id}/stop - завершить выставку
-POST    /show/{show_id}/start - запустить выставку
-POST    /show/{show_id}/animals/{animal_id}/register - записать животное на выставку
-POST    /show/{show_id}/animals/{animal_id}/unregister - отписать животное от выставки
+GET     /shows - получить список всех выставок
+GET     /shows/{show_id}/result - получить результаты выставки
+GET     /shows/{show_id}/animals - получить список участников выставки
+PATCH    /shows/{show_id} - изменить статус выставки
+POST    /show/{show_id}/registration - изменение записей, связанных с участниками выставки
 ```
 
 ```
-POST    /score - оценить участника
+POST    /scores - оценить участника
 ```
 
 ```
-GET     /animal
-POST    /animal - создать животное
-GET     /animal/{animal_id}
-DELETE  /animal/{animal_id}
-GET     /animal/user/{user_id}
+GET     /animals - получить список животных
+POST    /animals - создать животное
+GET     /animals/{animal_id} - получить информацию о животном по его идентификатору
+DELETE  /animals/{animal_id} - удалить животное
+PUT  /animals/{animal_id} - обновить информацию о животном
+GET     /animals/{animal_id}/shows - получить список выставок, в которых участвует животное
 ```
 
 ```
-POST    /user/{user_id}/register/{show_id} - добавить судью на выставку
-POST    /user/{user_id}/unregister/{show_id} - удалить судью с выставки
+POST    /users - создать пользователя
+GET     /users - получить всех пользователей
+GET     /users/{user_id} - получить информацию о пользователе по его идентификатору
+PUT     /users/{user_id} - обновить информацию о пользователе
+PUT     /users/{user_id}/animals - получить список животных владельца
 ```
 
 ```
-POST    /login - войти
-POST    /logout - выйти
+POST    /auth/jwt/autorization - авторизация
 ```
