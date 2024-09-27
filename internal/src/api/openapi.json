@@ -1,0 +1,2207 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "petowo",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Root",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/animals": {
+      "post": {
+        "tags": [
+          "animals"
+        ],
+        "summary": "Create Animal",
+        "operationId": "create_animal_animals_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnimalSchemaCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnimalSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No unauthorized client access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Creating animals requires the 'breeder' role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "animals"
+        ],
+        "summary": "Get Animals",
+        "operationId": "get_animals_animals_get",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "title": "Skip"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": false,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnimalSchema"
+                  },
+                  "title": "Response Get Animals Animal Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/animals/{animal_id}": {
+      "delete": {
+        "tags": [
+          "animals"
+        ],
+        "summary": "Delete Animal",
+        "operationId": "delete_animal_animals__animal_id__delete",
+        "parameters": [
+          {
+            "name": "animal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": false,
+              "title": "Animal Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnimalSchemaDelete"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No unauthorized client access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Deleting animal requires the 'breeder' role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "animals"
+        ],
+        "summary": "Get Animal By Id",
+        "operationId": "get_animal_by_id_animals__animal_id__get",
+        "parameters": [
+          {
+            "name": "animal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": false,
+              "title": "Animal Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnimalSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "animals"
+        ],
+        "summary": "Update Animal",
+        "operationId": "update_animal_by_id_animals_abimal_id__put",
+        "parameters": [
+          {
+            "name": "animal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": false,
+              "title": "Animal Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnimalSchemaUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnimalSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/animals/{animal_id}/shows": {
+      "get": {
+        "tags": [
+          "animals"
+        ],
+        "summary": "Get Animal Shows (registered)",
+        "operationId": "get_animal_shows_animals__animal_id__shows_delete",
+        "parameters": [
+          {
+            "name": "animal_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": false,
+              "title": "Animal Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ID"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create User",
+        "operationId": "create_user_users_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSchemaCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No unauthorized client access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get User All",
+        "operationId": "get_user_all_users_get",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "title": "Skip"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": false,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserSchema"
+                  },
+                  "title": "Response Get User All User Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get User By Id",
+        "operationId": "get_user_by_id_users__user_id__get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Update User",
+        "operationId": "update_user_users__user_id__post",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "User Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSchemaUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No unauthorized client access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Users can be updated only by themself",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/animals": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get Animals By User",
+        "operationId": "get_animals_by_user_users__user_id__get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSchema"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shows": {
+      "get": {
+        "tags": [
+          "shows"
+        ],
+        "summary": "Get Shows",
+        "operationId": "get_shows_shows_get",
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "title": "Skip"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": false,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShowSchema"
+                  },
+                  "title": "Response Get Shows Show Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shows/{show_id}/results": {
+      "get": {
+        "tags": [
+          "shows"
+        ],
+        "summary": "Get Show Result",
+        "operationId": "get_show_result_shows__show_id__results_get",
+        "parameters": [
+          {
+            "name": "show_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": false,
+              "title": "Show Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShowSchemaReport"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shows/{show_id}/animals": {
+      "get": {
+        "tags": [
+          "shows"
+        ],
+        "summary": "Get Show Animals",
+        "operationId": "get_show_animals_shows__show_id__animals_get",
+        "parameters": [
+          {
+            "name": "show_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": false,
+              "title": "Show Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnimalSchema"
+                  },
+                  "title": "Response Get Show Animals Show  Show Id  Animals Get"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shows/{show_id}": {
+      "patch": {
+        "tags": [
+          "shows"
+        ],
+        "summary": "Change Show Status",
+        "operationId": "patch_show_status_shows__show_id__patch",
+        "parameters": [
+          {
+            "name": "show_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": false,
+              "title": "Show Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "change the show status",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShowStatusUpdate"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/ShowStatusUpdate"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/ShowStatusUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/AnimalSchema"
+                  },
+                  "title": "Response Get Show Animals Show  Show Id  Animals Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No unauthorized client access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Patching show status requires the 'admin' role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shows/{show_id}/registration": {
+      "patch": {
+        "tags": [
+          "shows"
+        ],
+        "summary": "Change Registration Status",
+        "operationId": "registration_show_shows__show_id__patch",
+        "parameters": [
+          {
+            "name": "show_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "exclusiveMinimum": false,
+              "title": "Show Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "change show registration status",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShowRegistrationUpdate"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/ShowRegistrationUpdate"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/ShowRegistrationUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No unauthorized client access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Changing show registration status requires the 'admin' role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/jwt/authorization": {
+      "post": {
+        "tags": [
+          "authorization"
+        ],
+        "summary": "Login",
+        "operationId": "authorization_jwt_login_get",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthSchema"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/AuthSchemaDetails"
+                    },
+                    {}
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No unauthorized client access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorizing requires existing user registration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scores": {
+      "post": {
+        "tags": [
+          "scores"
+        ],
+        "summary": "Create Score",
+        "operationId": "create_score_scores_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScoreSchemaCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreSchema"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No unauthorized client access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Creating scores requires the 'judge' role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ShowStatusUpdate": {
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/ShowStatusUpdateType"
+          }
+        }
+      },
+      "ShowRegistrationUpdate": {
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/RegistrationType"
+          },
+          "subject": {
+            "$ref": "#/components/schemas/RegistrationSubject"
+          },
+          "id": {
+            "$ref": "#/components/schemas/ID"
+          }
+        }
+      },
+      "AnimalName": {
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "AnimalName"
+      },
+      "AnimalSchema": {
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "user_id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "breed_id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "name": {
+            "$ref": "#/components/schemas/AnimalName"
+          },
+          "birth_dt": {
+            "$ref": "#/components/schemas/Datetime"
+          },
+          "sex": {
+            "$ref": "#/components/schemas/Sex"
+          },
+          "weight": {
+            "$ref": "#/components/schemas/Weight"
+          },
+          "height": {
+            "$ref": "#/components/schemas/Height"
+          },
+          "length": {
+            "$ref": "#/components/schemas/Length"
+          },
+          "photo": {
+            "$ref": "#/components/schemas/Photo"
+          },
+          "has_defects": {
+            "type": "boolean",
+            "title": "Has Defects"
+          },
+          "is_multicolor": {
+            "type": "boolean",
+            "title": "Is Multicolor"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "breed_id",
+          "name",
+          "birth_dt",
+          "sex",
+          "weight",
+          "height",
+          "length",
+          "has_defects",
+          "is_multicolor"
+        ],
+        "title": "AnimalSchema"
+      },
+      "AnimalSchemaCreate": {
+        "properties": {
+          "user_id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "breed_id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "name": {
+            "$ref": "#/components/schemas/AnimalName"
+          },
+          "birth_dt": {
+            "$ref": "#/components/schemas/Datetime"
+          },
+          "sex": {
+            "$ref": "#/components/schemas/Sex"
+          },
+          "weight": {
+            "$ref": "#/components/schemas/Weight"
+          },
+          "height": {
+            "$ref": "#/components/schemas/Height"
+          },
+          "length": {
+            "$ref": "#/components/schemas/Length"
+          },
+          "photo": {
+            "$ref": "#/components/schemas/Photo"
+          },
+          "has_defects": {
+            "type": "boolean",
+            "title": "Has Defects"
+          },
+          "is_multicolor": {
+            "type": "boolean",
+            "title": "Is Multicolor"
+          }
+        },
+        "type": "object",
+        "required": [
+          "user_id",
+          "breed_id",
+          "name",
+          "birth_dt",
+          "sex",
+          "weight",
+          "height",
+          "length",
+          "has_defects",
+          "is_multicolor"
+        ],
+        "title": "AnimalSchemaCreate"
+      },
+      "AnimalSchemaUpdate": {
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/AnimalName"
+          },
+          "weight": {
+            "$ref": "#/components/schemas/Weight"
+          },
+          "height": {
+            "$ref": "#/components/schemas/Height"
+          },
+          "length": {
+            "$ref": "#/components/schemas/Length"
+          },
+          "photo": {
+            "$ref": "#/components/schemas/Photo"
+          },
+          "has_defects": {
+            "type": "boolean",
+            "title": "Has Defects"
+          }
+        },
+        "type": "object",
+        "title": "AnimalSchemaUpdate"
+      },
+      "AnimalSchemaDelete": {
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "deleted"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "AnimalSchemaDelete"
+      },
+      "AnimalShowRankingInfo": {
+        "properties": {
+          "total_info": {
+            "$ref": "#/components/schemas/TotalScoreInfo"
+          },
+          "rank": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "Rank"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_info",
+          "rank"
+        ],
+        "title": "AnimalShowRankingInfo"
+      },
+      "AuthSchema": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/AuthSchemaDetails"
+          },
+          {
+            "$ref": "#/components/schemas/AuthSchemaSignIn"
+          }
+        ]
+      },
+      "AuthSchemaDetails": {
+        "properties": {
+          "access_token": {
+            "$ref": "#/components/schemas/Token"
+          },
+          "refresh_token": {
+            "$ref": "#/components/schemas/Token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_token",
+          "refresh_token"
+        ],
+        "title": "AuthDetails"
+      },
+      "AuthSchemaSignIn": {
+        "properties": {
+          "email": {
+            "$ref": "#/components/schemas/Email"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password"
+          },
+          "fingerprint": {
+            "$ref": "#/components/schemas/Fingerprint"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password",
+          "fingerprint"
+        ],
+        "title": "AuthSchemaSignIn"
+      },
+      "Country": {
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "Country"
+      },
+      "Datetime": {
+        "properties": {
+          "value": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "Datetime"
+      },
+      "Email": {
+        "properties": {
+          "value": {
+            "type": "string",
+            "format": "email",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "Email"
+      },
+      "Fingerprint": {
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "Fingerprint"
+      },
+      "HTTPError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/HTTPError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPError"
+      },
+      "HashedPassword": {
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "HashedPassword"
+      },
+      "Height": {
+        "properties": {
+          "value": {
+            "type": "number",
+            "exclusiveMinimum": false,
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "Height"
+      },
+      "ID": {
+        "properties": {
+          "value": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "ID"
+      },
+      "Photo": {
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Photo"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "Photo"
+      },
+      "RegistrationType": {
+        "type": "string",
+        "enum": [
+          "register",
+          "unregister"
+        ],
+        "title": "RegistrationType"
+      },
+      "RegistrationSubject": {
+        "type": "string",
+        "enum": [
+          "animal",
+          "user"
+        ],
+        "title": "RegistrationSubject"
+      },
+      "ShowStatusUpdateType": {
+        "type": "string",
+        "enum": [
+          "start",
+          "stop"
+        ],
+        "title": "ShowStatusUpdateType"
+      },
+      "Length": {
+        "properties": {
+          "value": {
+            "type": "number",
+            "exclusiveMinimum": false,
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "Length"
+      },
+      "Score": {
+        "properties": {
+          "value": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "Score"
+      },
+      "ScoreSchema": {
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "usershow_id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "animalshow_id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "value": {
+            "$ref": "#/components/schemas/ScoreValue"
+          },
+          "is_archived": {
+            "type": "boolean",
+            "title": "Is Archived"
+          },
+          "dt_created": {
+            "$ref": "#/components/schemas/Datetime"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "usershow_id",
+          "animalshow_id",
+          "value",
+          "is_archived",
+          "dt_created"
+        ],
+        "title": "ScoreSchema"
+      },
+      "ScoreSchemaCreate": {
+        "properties": {
+          "usershow_id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "animalshow_id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "value": {
+            "$ref": "#/components/schemas/ScoreValue"
+          },
+          "dt_created": {
+            "$ref": "#/components/schemas/Datetime"
+          }
+        },
+        "type": "object",
+        "required": [
+          "usershow_id",
+          "animalshow_id",
+          "value",
+          "dt_created"
+        ],
+        "title": "ScoreSchemaCreate"
+      },
+      "ScoreValue": {
+        "properties": {
+          "value": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "ScoreValue"
+      },
+      "Sex": {
+        "type": "string",
+        "enum": [
+          "male",
+          "female"
+        ],
+        "title": "Sex"
+      },
+      "ShowClass": {
+        "type": "string",
+        "enum": [
+          "one",
+          "two",
+          "three"
+        ],
+        "title": "ShowClass"
+      },
+      "ShowName": {
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "ShowName"
+      },
+      "ShowRegisterAnimalResult": {
+        "properties": {
+          "record_id": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ID"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "status": {
+            "$ref": "#/components/schemas/ShowRegisterAnimalStatus"
+          }
+        },
+        "type": "object",
+        "required": [
+          "record_id",
+          "status"
+        ],
+        "title": "ShowRegisterAnimalResult"
+      },
+      "ShowRegisterAnimalStatus": {
+        "type": "string",
+        "enum": [
+          "ok",
+          "error",
+          "unregok",
+          "unregerror"
+        ],
+        "title": "ShowRegisterAnimalStatus"
+      },
+      "ShowSchema": {
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "species_id": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ID"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "breed_id": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ID"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "status": {
+            "$ref": "#/components/schemas/ShowStatus"
+          },
+          "country": {
+            "$ref": "#/components/schemas/Country"
+          },
+          "show_class": {
+            "$ref": "#/components/schemas/ShowClass"
+          },
+          "name": {
+            "$ref": "#/components/schemas/ShowName"
+          },
+          "standard_id": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ID"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "is_multi_breed": {
+            "type": "boolean",
+            "title": "Is Multi Breed"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "species_id",
+          "breed_id",
+          "status",
+          "country",
+          "show_class",
+          "name",
+          "standard_id",
+          "is_multi_breed"
+        ],
+        "title": "ShowSchema"
+      },
+      "ShowSchemaReport": {
+        "properties": {
+          "ranking_info": {
+            "items": {
+              "$ref": "#/components/schemas/AnimalShowRankingInfo"
+            },
+            "type": "array",
+            "title": "Ranking Info"
+          },
+          "rank_count": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "Rank Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ranking_info",
+          "rank_count"
+        ],
+        "title": "ShowSchemaReport"
+      },
+      "ShowStatus": {
+        "type": "string",
+        "enum": [
+          "created",
+          "started",
+          "stopped",
+          "aborted"
+        ],
+        "title": "ShowStatus"
+      },
+      "Token": {
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "Token"
+      },
+      "TotalScoreInfo": {
+        "properties": {
+          "record_id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "total": {
+            "$ref": "#/components/schemas/Score"
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "Count"
+          },
+          "average": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Average"
+          },
+          "max_score": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Score"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "min_score": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Score"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "record_id",
+          "total",
+          "count",
+          "average",
+          "max_score",
+          "min_score"
+        ],
+        "title": "TotalScoreInfo"
+      },
+      "UserName": {
+        "properties": {
+          "value": {
+            "type": "string",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "UserName"
+      },
+      "UserRole": {
+        "type": "string",
+        "enum": [
+          "admin",
+          "guest",
+          "breeder",
+          "judge"
+        ],
+        "title": "UserRole"
+      },
+      "UserSchema": {
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "email": {
+            "$ref": "#/components/schemas/Email"
+          },
+          "hashed_password": {
+            "$ref": "#/components/schemas/HashedPassword"
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRole"
+          },
+          "name": {
+            "$ref": "#/components/schemas/UserName"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "hashed_password",
+          "role",
+          "name"
+        ],
+        "title": "UserSchema"
+      },
+      "UserSchemaCreate": {
+        "properties": {
+          "email": {
+            "$ref": "#/components/schemas/Email"
+          },
+          "hashed_password": {
+            "$ref": "#/components/schemas/HashedPassword"
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRole"
+          },
+          "name": {
+            "$ref": "#/components/schemas/UserName"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "hashed_password",
+          "role",
+          "name"
+        ],
+        "title": "UserSchemaCreate"
+      },
+      "UserSchemaUpdate": {
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "email": {
+            "$ref": "#/components/schemas/Email"
+          },
+          "hashed_password": {
+            "$ref": "#/components/schemas/HashedPassword"
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRole"
+          },
+          "name": {
+            "$ref": "#/components/schemas/UserName"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "hashed_password",
+          "role",
+          "name"
+        ],
+        "title": "UserSchemaUpdate"
+      },
+      "Weight": {
+        "properties": {
+          "value": {
+            "type": "number",
+            "exclusiveMinimum": false,
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "title": "Weight"
+      }
+    }
+  }
+}

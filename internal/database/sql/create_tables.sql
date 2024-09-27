@@ -213,7 +213,8 @@ create table if not exists Animal (
     height float,
     "length" float,
     has_defects bool,
-    is_multicolor bool
+    is_multicolor bool,
+    photo bytea
 );
 
 create table if not exists "user" (

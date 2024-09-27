@@ -1,10 +1,14 @@
+from contextlib import nullcontext
 from datetime import datetime
+from unittest.mock import numerics
 
-from sqlalchemy import ForeignKey, String, DateTime, Float, Boolean
+from sqlalchemy import ForeignKey, String, DateTime, Float, Boolean, LargeBinary
 from sqlalchemy.orm import mapped_column, Mapped
 
 from core.animal.schema.animal import AnimalSchema
 from core.utils.types import Sex, AnimalName, Datetime, Weight, Height, Length, ID
+
+from core.utils.types import ByteA
 from .base import Base
 
 
@@ -22,6 +26,7 @@ class AnimalORM(Base):
     length: Mapped[float] = mapped_column(Float, nullable=False)
     has_defects: Mapped[bool] = mapped_column(Boolean, nullable=False)
     is_multicolor: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    photo: Mapped[ByteA] = mapped_column(LargeBinary, nullable=True)
 
     def to_schema(self) -> AnimalSchema:
         return AnimalSchema(
@@ -35,5 +40,6 @@ class AnimalORM(Base):
             height=Height(self.height),
             length=Length(self.length),
             has_defects=self.has_defects,
-            is_multicolor=self.is_multicolor
+            is_multicolor=self.is_multicolor,
+            photo=self.photo
         )

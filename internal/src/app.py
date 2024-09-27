@@ -1,3 +1,4 @@
+import json
 import time
 
 from fastapi import FastAPI, Request
@@ -27,11 +28,17 @@ class AppCreator:
             response.headers["X-Process-Time"] = str(process_time)
             return response
 
+        self.app.openapi = self.custom_openapi
         self.app.include_router(router_animal)
         self.app.include_router(router_user)
         self.app.include_router(router_show)
         self.app.include_router(router_auth)
         self.app.include_router(router_score)
+
+    @staticmethod
+    def custom_openapi():
+        with open("/app/src/api/openapi.json", "r") as openapi:
+            return json.load(openapi)
 
 
 app_creator = AppCreator()

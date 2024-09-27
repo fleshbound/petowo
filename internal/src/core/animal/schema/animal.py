@@ -1,6 +1,10 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 from core.utils.types import ID, AnimalName, Sex, Datetime, Length, Height, Weight
+
+from core.utils.types import ByteA
 
 
 class AnimalSchemaCreate(BaseModel):
@@ -14,6 +18,7 @@ class AnimalSchemaCreate(BaseModel):
     length: Length
     has_defects: bool
     is_multicolor: bool
+    photo: Optional[ByteA]
 
 
 class AnimalSchemaUpdate(BaseModel):
@@ -25,6 +30,7 @@ class AnimalSchemaUpdate(BaseModel):
     length: Length
     has_defects: bool
     is_multicolor: bool
+    photo: Optional[ByteA]
 
 
 class AnimalSchema(BaseModel):
@@ -39,6 +45,7 @@ class AnimalSchema(BaseModel):
     length: Length
     has_defects: bool
     is_multicolor: bool
+    photo: Optional[ByteA]
 
     @classmethod
     def from_create(cls, other: AnimalSchemaCreate):
@@ -53,7 +60,8 @@ class AnimalSchema(BaseModel):
             height=other.height,
             length=other.length,
             has_defects=other.has_defects,
-            is_multicolor=other.is_multicolor
+            is_multicolor=other.is_multicolor,
+            photo=other.photo
         )
 
     def from_update(self, other: AnimalSchemaUpdate):
@@ -68,7 +76,8 @@ class AnimalSchema(BaseModel):
             height=other.height,
             length=other.length,
             has_defects=other.has_defects,
-            is_multicolor=other.is_multicolor
+            is_multicolor=other.is_multicolor,
+            photo=other.photo
         )
     
     def __eq__(self, other):
