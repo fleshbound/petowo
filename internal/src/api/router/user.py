@@ -10,8 +10,8 @@ from core.user.service.user import IUserService
 from core.utils.types import ID
 
 router = APIRouter(
-    prefix="/user",
-    tags=["User"]
+    prefix="/users",
+    tags=["Users"]
 )
 
 dep_user = Depends(Provide[Container.user_service])

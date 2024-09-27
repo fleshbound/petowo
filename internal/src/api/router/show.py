@@ -14,8 +14,8 @@ from core.utils.exceptions import NotFoundRepoError, ShowServiceError
 from core.utils.types import ID
 
 router = APIRouter(
-    prefix="/show",
-    tags=["Show"]
+    prefix="/shows",
+    tags=["Shows"]
 )
 
 dep_show = Depends(Provide[Container.show_service])

@@ -12,8 +12,8 @@ from core.utils.exceptions import ValidationRepoError
 from core.utils.types import ID
 
 router = APIRouter(
-    prefix="/score",
-    tags=["Score"]
+    prefix="/scores",
+    tags=["Scores"]
 )
 
 dep_score = Depends(Provide[Container.score_service])

@@ -12,8 +12,8 @@ from core.utils.exceptions import NotFoundRepoError
 from core.utils.types import ID
 
 router = APIRouter(
-    prefix="/animal",
-    tags=["Animal"]
+    prefix="/animals",
+    tags=["Animals"]
 )
 
 dep_animal = Depends(Provide[Container.animal_service])
