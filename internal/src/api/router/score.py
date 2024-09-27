@@ -5,7 +5,7 @@ from fastapi import Depends, status, APIRouter
 from fastapi.responses import PlainTextResponse
 from pydantic import NonNegativeInt, PositiveInt
 
-from container.container import Container
+from container import Container
 from core.show.schema.score import ScoreSchemaCreate, ScoreSchema, ScoreSchemaUpdate
 from core.show.service.score import IScoreService
 from core.utils.exceptions import ValidationRepoError

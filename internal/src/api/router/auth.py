@@ -5,7 +5,7 @@ from fastapi import Depends, status, APIRouter
 from fastapi.responses import PlainTextResponse
 from pydantic import NonNegativeInt, PositiveInt
 
-from container.container import Container
+from container import Container
 from core.auth.schema.auth import AuthDetails, AuthSchemaSignIn
 from core.auth.service.auth import IAuthService
 from core.utils.exceptions import AuthServiceError

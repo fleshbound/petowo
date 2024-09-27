@@ -2,7 +2,7 @@ import time
 
 from fastapi import FastAPI, Request
 
-from container.container import Container
+from container import Container
 from api.router.animal import router as router_animal
 from api.router.user import router as router_user
 from api.router.show import router as router_show

@@ -4,7 +4,7 @@ from dependency_injector.wiring import Provide, inject
 from fastapi import Depends, status, APIRouter
 from pydantic import NonNegativeInt, PositiveInt
 
-from container.container import Container
+from container import Container
 from core.user.schema.user import UserSchemaCreate, UserSchema, UserSchemaUpdate
 from core.user.service.user import IUserService
 from core.utils.types import ID

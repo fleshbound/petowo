@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import PlainTextResponse
 from pydantic import NonNegativeInt, PositiveInt
 
-from container.container import Container
+from container import Container
 from core.animal.schema.animal import AnimalSchema
 from core.show.schema.show import ShowSchema, ShowSchemaReport, \
     ShowRegisterAnimalResult

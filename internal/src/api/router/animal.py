@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, status
 from fastapi.responses import PlainTextResponse
 from pydantic import PositiveInt
 
-from container.container import Container
+from container import Container
 from core.animal.schema.animal import AnimalSchemaCreate, AnimalSchema, AnimalSchemaDelete
 from core.animal.service.animal import IAnimalService
 from core.utils.exceptions import NotFoundRepoError
