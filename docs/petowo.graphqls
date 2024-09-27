@@ -1,0 +1,20 @@
+type Query {
+    animalsByUser(userId: Int!, last: Int): [Animal!]!
+    allShows(last: Int): [Show!]!
+}
+
+type Animal {
+    id: ID!
+    name: String!
+    birth_dt: ISODate!
+    user_id: ID!
+    breed_id: ID!
+    sex: 
+    weight: Float!
+        - height
+        - length
+        - has_defects
+        - is_multicolor
+}
+
+scalar ISODate
