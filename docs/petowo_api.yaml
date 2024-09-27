@@ -13,6 +13,12 @@ paths:
           content:
             application/json:
               schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
   /animals:
     post:
       tags:
@@ -37,7 +43,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '401': 
+          description: No unauthorized client access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '403': 
+          description: This user hasn't access rights
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
     get:
       tags:
         - animals
@@ -73,7 +97,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
   /animals/{animal_id}:
     delete:
       tags:
@@ -100,7 +130,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '401': 
+          description: No unauthorized client access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '403': 
+          description: This user hasn't access rights
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '404': 
+          description: No founded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
     get:
       tags:
         - animals
@@ -126,7 +180,63 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '404': 
+          description: No founded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+    put:
+      tags:
+        - animals
+      summary: Update Animal
+      operationId: update_animal_by_id_animals_abimal_id__put
+      parameters:
+        - name: animal_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            exclusiveMinimum: false
+            title: Animal Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnimalSchemaUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnimalSchema'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '404': 
+          description: No founded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
   /animals/{animal_id}/shows:
     get:
       tags:
@@ -155,7 +265,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '404': 
+          description: No founded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
   /users:
     post:
       tags:
@@ -180,7 +302,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '401': 
+          description: No unauthorized client access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '403': 
+          description: This user hasn't access rights
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
     get:
       tags:
         - users
@@ -216,7 +356,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
   /users/{user_id}:
     get:
       tags:
@@ -243,8 +389,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-    post:
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '404': 
+          description: No founded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+    put:
       tags:
         - users
       summary: Update User
@@ -275,7 +433,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '401': 
+          description: No unauthorized client access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '403': 
+          description: This user hasn't access rights
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '404': 
+          description: No founded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
   /users/{user_id}/animals:
     get:
       tags:
@@ -302,7 +484,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '404': 
+          description: No founded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
   /shows:
     get:
       tags:
@@ -339,7 +533,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
   /shows/{show_id}/results:
     get:
       tags:
@@ -366,7 +566,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '404': 
+          description: No founded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
   /shows/{show_id}/animals:
     get:
       tags:
@@ -396,7 +608,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '404': 
+          description: No founded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
   /shows/{show_id}:
     patch:
       tags:
@@ -439,7 +663,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '401': 
+          description: No unauthorized client access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '403': 
+          description: This user hasn't access rights
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '404': 
+          description: No founded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
   /shows/{show_id}/registration:
     patch:
       tags:
@@ -479,57 +727,82 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-  /auth/jwt/login:
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '401': 
+          description: No unauthorized client access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '403': 
+          description: This user hasn't access rights
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '404': 
+          description: No founded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+  /auth/jwt/authorization:
     post:
       tags:
-        - auth
+        - authorization
       summary: Login
-      operationId: login_auth_jwt_login_post
+      operationId: authorization_jwt_login_get
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AuthSchemaSignIn'
-        required: true
+              $ref: '#/components/schemas/AuthSchema'
+        required: false
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AuthDetails'
+                oneOf:
+                  - $ref: '#/components/schemas/AuthSchemaDetails'
+                  - {}
         '422':
           description: Validation Error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-  /auth/jwt/logout:
-    post:
-      tags:
-        - auth
-      summary: Logout
-      operationId: logout_auth_jwt_logout_post
-      parameters:
-        - name: token
-          in: query
-          required: true
-          schema:
-            type: string
-            title: Token
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-        '422':
-          description: Validation Error
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/HTTPError'
+        '401': 
+          description: No unauthorized client access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '403': 
+          description: This user hasn't access rights
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '404': 
+          description: No founded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
   /scores:
     post:
       tags:
@@ -554,7 +827,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/HTTPError'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '401': 
+          description: No unauthorized client access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+        '403': 
+          description: This user hasn't access rights
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
 components:
   schemas:
     ShowStatusUpdate:
@@ -655,6 +946,23 @@ components:
         - has_defects
         - is_multicolor
       title: AnimalSchemaCreate
+    AnimalSchemaUpdate:
+      properties:
+        name:
+          $ref: '#/components/schemas/AnimalName'
+        weight:
+          $ref: '#/components/schemas/Weight'
+        height:
+          $ref: '#/components/schemas/Height'
+        length:
+          $ref: '#/components/schemas/Length'
+        has_defects:
+          type: boolean
+          title: Has Defects
+      type: object
+      required:
+        - animal_id
+      title: AnimalSchemaUpdate
     AnimalSchemaDelete:
       properties:
         id:
@@ -680,7 +988,11 @@ components:
         - total_info
         - rank
       title: AnimalShowRankingInfo
-    AuthDetails:
+    AuthSchema:
+      oneOf:
+        - $ref: '#/components/schemas/AuthSchemaDetails'
+        - $ref: '#/components/schemas/AuthSchemaSignIn'
+    AuthSchemaDetails:
       properties:
         access_token:
           $ref: '#/components/schemas/Token'
@@ -744,15 +1056,15 @@ components:
       required:
         - value
       title: Fingerprint
-    HTTPValidationError:
+    HTTPError:
       properties:
         detail:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            $ref: '#/components/schemas/HTTPError'
           type: array
           title: Detail
       type: object
-      title: HTTPValidationError
+      title: HTTPError
     HashedPassword:
       properties:
         value:
@@ -1093,27 +1405,6 @@ components:
         - role
         - name
       title: UserSchemaUpdate
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-              - type: string
-              - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-        - loc
-        - msg
-        - type
-      title: ValidationError
     Weight:
       properties:
         value:
