@@ -70,7 +70,7 @@
             }
           },
           "403": {
-            "description": "Creating animals requires the 'breeder' role",
+            "description": "This user hasn't access rights",
             "content": {
               "application/json": {
                 "schema": {
@@ -208,7 +208,7 @@
             }
           },
           "403": {
-            "description": "Deleting animal requires the 'breeder' role",
+            "description": "This user hasn't access rights",
             "content": {
               "application/json": {
                 "schema": {
@@ -218,7 +218,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "No founded",
             "content": {
               "application/json": {
                 "schema": {
@@ -279,7 +279,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "No founded",
             "content": {
               "application/json": {
                 "schema": {
@@ -350,7 +350,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "No founded",
             "content": {
               "application/json": {
                 "schema": {
@@ -416,7 +416,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "No founded",
             "content": {
               "application/json": {
                 "schema": {
@@ -478,6 +478,16 @@
           },
           "401": {
             "description": "No unauthorized client access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "This user hasn't access rights",
             "content": {
               "application/json": {
                 "schema": {
@@ -605,7 +615,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "No founded",
             "content": {
               "application/json": {
                 "schema": {
@@ -646,7 +656,7 @@
           {
             "name": "user_id",
             "in": "path",
-            "description": "User Id",
+            "description": "ID of user",
             "required": true,
             "schema": {
               "type": "integer",
@@ -686,7 +696,7 @@
             }
           },
           "403": {
-            "description": "Users can be updated only by themself",
+            "description": "This user hasn't access rights",
             "content": {
               "application/json": {
                 "schema": {
@@ -696,7 +706,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "No founded",
             "content": {
               "application/json": {
                 "schema": {
@@ -759,7 +769,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "No founded",
             "content": {
               "application/json": {
                 "schema": {
@@ -889,7 +899,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "No founded",
             "content": {
               "application/json": {
                 "schema": {
@@ -956,7 +966,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "No founded",
             "content": {
               "application/json": {
                 "schema": {
@@ -1054,7 +1064,7 @@
             }
           },
           "403": {
-            "description": "Patching show status requires the 'admin' role",
+            "description": "This user hasn't access rights",
             "content": {
               "application/json": {
                 "schema": {
@@ -1064,7 +1074,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "No founded",
             "content": {
               "application/json": {
                 "schema": {
@@ -1158,7 +1168,7 @@
             }
           },
           "403": {
-            "description": "Changing show registration status requires the 'admin' role",
+            "description": "This user hasn't access rights",
             "content": {
               "application/json": {
                 "schema": {
@@ -1168,7 +1178,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "No founded",
             "content": {
               "application/json": {
                 "schema": {
@@ -1205,7 +1215,7 @@
         "tags": [
           "authorization"
         ],
-        "summary": "Login",
+        "summary": "Authorization",
         "operationId": "authorization_jwt_login_get",
         "requestBody": {
           "content": {
@@ -1244,7 +1254,7 @@
             }
           },
           "403": {
-            "description": "Authorizing requires existing user registration",
+            "description": "This user hasn't access rights",
             "content": {
               "application/json": {
                 "schema": {
@@ -1254,7 +1264,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "No founded",
             "content": {
               "application/json": {
                 "schema": {
@@ -1325,7 +1335,7 @@
             }
           },
           "403": {
-            "description": "Creating scores requires the 'judge' role",
+            "description": "This user hasn't access rights",
             "content": {
               "application/json": {
                 "schema": {
