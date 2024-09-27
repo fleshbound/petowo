@@ -33,3 +33,4 @@ project/.bloop/
 .vscode/*
 **/__pycache__/**
 internal/database/data
+**/venv/**

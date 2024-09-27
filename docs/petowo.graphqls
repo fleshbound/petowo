@@ -3,18 +3,60 @@ type Query {
     allShows(last: Int): [Show!]!
 }
 
+type Mutation {
+    createAnimal(create: AnimalCreate!): Animal!
+    deleteAnimal(id: ID!): Animal!
+    updateAnimal(id: ID!, update: AnimalUpdate!): Animal!
+}
+
 type Animal {
     id: ID!
     name: String!
     birth_dt: ISODate!
     user_id: ID!
     breed_id: ID!
-    sex: 
+    sex: String!
     weight: Float!
-        - height
-        - length
-        - has_defects
-        - is_multicolor
+    height: Float!
+    length: Float!
+    has_defects: Boolean!
+    is_multicolor: Boolean!
+    photo: String
+}
+
+input AnimalCreate {
+    name: String!
+    birth_dt: ISODate!
+    user_id: ID!
+    breed_id: ID!
+    sex: String!
+    weight: Float!
+    height: Float!
+    length: Float!
+    has_defects: Boolean!
+    is_multicolor: Boolean!
+    photo: String
+}
+
+input AnimalUpdate {
+    name: String!
+    weight: Float!
+    height: Float!
+    length: Float!
+    has_defects: Boolean!
+    photo: String
+}
+
+type Show {
+    id: ID!
+    name: String!
+    breed_id: ID
+    standard_id: ID
+    species_id: ID
+    country: String!
+    status: String!
+    show_class: String!
+    is_multi_breed: Boolean!
 }
 
 scalar ISODate
