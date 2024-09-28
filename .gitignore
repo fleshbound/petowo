@@ -34,3 +34,5 @@ project/.bloop/
 **/__pycache__/**
 internal/database/data
 **/venv/**
+*.dtmp
+*.bkp

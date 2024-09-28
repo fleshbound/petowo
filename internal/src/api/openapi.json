@@ -70,7 +70,7 @@
             }
           },
           "403": {
-            "description": "This user hasn't access rights",
+            "description": "Creating animals requires the 'breeder' role",
             "content": {
               "application/json": {
                 "schema": {
@@ -208,7 +208,7 @@
             }
           },
           "403": {
-            "description": "This user hasn't access rights",
+            "description": "Deleting animal requires the 'breeder' role",
             "content": {
               "application/json": {
                 "schema": {
@@ -218,7 +218,7 @@
             }
           },
           "404": {
-            "description": "No founded",
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
@@ -279,7 +279,7 @@
             }
           },
           "404": {
-            "description": "No founded",
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
@@ -350,7 +350,7 @@
             }
           },
           "404": {
-            "description": "No founded",
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
@@ -409,14 +409,14 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ID"
+                    "$ref": "#/components/schemas/ShowSchema"
                   }
                 }
               }
             }
           },
           "404": {
-            "description": "No founded",
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
@@ -478,16 +478,6 @@
           },
           "401": {
             "description": "No unauthorized client access",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPError"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "This user hasn't access rights",
             "content": {
               "application/json": {
                 "schema": {
@@ -615,7 +605,7 @@
             }
           },
           "404": {
-            "description": "No founded",
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
@@ -656,7 +646,7 @@
           {
             "name": "user_id",
             "in": "path",
-            "description": "ID of user",
+            "description": "User Id",
             "required": true,
             "schema": {
               "type": "integer",
@@ -696,7 +686,7 @@
             }
           },
           "403": {
-            "description": "This user hasn't access rights",
+            "description": "Users can be updated only by themself",
             "content": {
               "application/json": {
                 "schema": {
@@ -706,7 +696,7 @@
             }
           },
           "404": {
-            "description": "No founded",
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
@@ -763,13 +753,82 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserSchema"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnimalSchema"
+                  }
                 }
               }
             }
           },
           "404": {
-            "description": "No founded",
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/shows": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get Shows By User",
+        "operationId": "get_shows_by_user_users__user_id__get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShowSchema"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
@@ -866,6 +925,59 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "shows"
+        ],
+        "summary": "Create Show",
+        "operationId": "post_shows_shows_get",
+        "parameters": [
+          {
+            "name": "create_show",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ShowSchemaCreate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShowSchema"
+                  },
+                  "title": "Response Get Shows Show Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/shows/{show_id}/results": {
@@ -899,7 +1011,7 @@
             }
           },
           "404": {
-            "description": "No founded",
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
@@ -966,7 +1078,7 @@
             }
           },
           "404": {
-            "description": "No founded",
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
@@ -1064,7 +1176,7 @@
             }
           },
           "403": {
-            "description": "This user hasn't access rights",
+            "description": "Patching show status requires the 'admin' role",
             "content": {
               "application/json": {
                 "schema": {
@@ -1074,7 +1186,7 @@
             }
           },
           "404": {
-            "description": "No founded",
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
@@ -1168,7 +1280,7 @@
             }
           },
           "403": {
-            "description": "This user hasn't access rights",
+            "description": "Changing show registration status requires the 'admin' role",
             "content": {
               "application/json": {
                 "schema": {
@@ -1178,7 +1290,7 @@
             }
           },
           "404": {
-            "description": "No founded",
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
@@ -1243,28 +1355,8 @@
               }
             }
           },
-          "401": {
-            "description": "No unauthorized client access",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPError"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "This user hasn't access rights",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPError"
-                }
-              }
-            }
-          },
           "404": {
-            "description": "No founded",
+            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
@@ -1335,7 +1427,7 @@
             }
           },
           "403": {
-            "description": "This user hasn't access rights",
+            "description": "Creating scores requires the 'judge' role",
             "content": {
               "application/json": {
                 "schema": {
@@ -1370,13 +1462,6 @@
   },
   "components": {
     "schemas": {
-      "ShowStatusUpdate": {
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/ShowStatusUpdateType"
-          }
-        }
-      },
       "ShowRegistrationUpdate": {
         "properties": {
           "type": {
@@ -1386,54 +1471,49 @@
             "$ref": "#/components/schemas/RegistrationSubject"
           },
           "id": {
-            "$ref": "#/components/schemas/ID"
+            "type": "integer",
+            "minimum": 0,
+            "title": "id"
           }
         }
-      },
-      "AnimalName": {
-        "properties": {
-          "value": {
-            "type": "string",
-            "title": "Value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "value"
-        ],
-        "title": "AnimalName"
       },
       "AnimalSchema": {
         "properties": {
           "id": {
-            "$ref": "#/components/schemas/ID"
+            "type": "integer",
+            "minimum": 0,
+            "title": "id"
           },
           "user_id": {
-            "$ref": "#/components/schemas/ID"
+            "type": "integer",
+            "minimum": 0,
+            "title": "id"
           },
           "breed_id": {
-            "$ref": "#/components/schemas/ID"
+            "type": "integer",
+            "minimum": 0,
+            "title": "id"
           },
           "name": {
-            "$ref": "#/components/schemas/AnimalName"
+            "type": "string"
           },
           "birth_dt": {
-            "$ref": "#/components/schemas/Datetime"
+            "type": "string"
           },
           "sex": {
             "$ref": "#/components/schemas/Sex"
           },
           "weight": {
-            "$ref": "#/components/schemas/Weight"
+            "type": "string"
           },
           "height": {
-            "$ref": "#/components/schemas/Height"
+            "type": "string"
           },
           "length": {
-            "$ref": "#/components/schemas/Length"
+            "type": "string"
           },
           "photo": {
-            "$ref": "#/components/schemas/Photo"
+            "type": "string"
           },
           "has_defects": {
             "type": "boolean",
@@ -1463,31 +1543,35 @@
       "AnimalSchemaCreate": {
         "properties": {
           "user_id": {
-            "$ref": "#/components/schemas/ID"
+            "type": "integer",
+            "minimum": 0,
+            "title": "id"
           },
           "breed_id": {
-            "$ref": "#/components/schemas/ID"
+            "type": "integer",
+            "minimum": 0,
+            "title": "id"
           },
           "name": {
-            "$ref": "#/components/schemas/AnimalName"
+            "type": "string"
           },
           "birth_dt": {
-            "$ref": "#/components/schemas/Datetime"
+            "type": "string"
           },
           "sex": {
             "$ref": "#/components/schemas/Sex"
           },
           "weight": {
-            "$ref": "#/components/schemas/Weight"
+            "type": "string"
           },
           "height": {
-            "$ref": "#/components/schemas/Height"
+            "type": "string"
           },
           "length": {
-            "$ref": "#/components/schemas/Length"
+            "type": "string"
           },
           "photo": {
-            "$ref": "#/components/schemas/Photo"
+            "type": "string"
           },
           "has_defects": {
             "type": "boolean",
@@ -1516,19 +1600,19 @@
       "AnimalSchemaUpdate": {
         "properties": {
           "name": {
-            "$ref": "#/components/schemas/AnimalName"
+            "type": "string"
           },
           "weight": {
-            "$ref": "#/components/schemas/Weight"
+            "type": "string"
           },
           "height": {
-            "$ref": "#/components/schemas/Height"
+            "type": "string"
           },
           "length": {
-            "$ref": "#/components/schemas/Length"
+            "type": "string"
           },
           "photo": {
-            "$ref": "#/components/schemas/Photo"
+            "type": "string"
           },
           "has_defects": {
             "type": "boolean",
@@ -1541,7 +1625,9 @@
       "AnimalSchemaDelete": {
         "properties": {
           "id": {
-            "$ref": "#/components/schemas/ID"
+            "type": "integer",
+            "minimum": 0,
+            "title": "id"
           },
           "status": {
             "type": "string",
@@ -1576,7 +1662,7 @@
       "AuthSchema": {
         "oneOf": [
           {
-            "$ref": "#/components/schemas/AuthSchemaDetails"
+            "type": "string"
           },
           {
             "$ref": "#/components/schemas/AuthSchemaSignIn"
@@ -1586,10 +1672,10 @@
       "AuthSchemaDetails": {
         "properties": {
           "access_token": {
-            "$ref": "#/components/schemas/Token"
+            "type": "string"
           },
           "refresh_token": {
-            "$ref": "#/components/schemas/Token"
+            "type": "string"
           }
         },
         "type": "object",
@@ -1602,14 +1688,14 @@
       "AuthSchemaSignIn": {
         "properties": {
           "email": {
-            "$ref": "#/components/schemas/Email"
+            "type": "string"
           },
           "password": {
             "type": "string",
             "title": "Password"
           },
           "fingerprint": {
-            "$ref": "#/components/schemas/Fingerprint"
+            "type": "string"
           }
         },
         "type": "object",
@@ -1619,60 +1705,6 @@
           "fingerprint"
         ],
         "title": "AuthSchemaSignIn"
-      },
-      "Country": {
-        "properties": {
-          "value": {
-            "type": "string",
-            "title": "Value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "value"
-        ],
-        "title": "Country"
-      },
-      "Datetime": {
-        "properties": {
-          "value": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "value"
-        ],
-        "title": "Datetime"
-      },
-      "Email": {
-        "properties": {
-          "value": {
-            "type": "string",
-            "format": "email",
-            "title": "Value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "value"
-        ],
-        "title": "Email"
-      },
-      "Fingerprint": {
-        "properties": {
-          "value": {
-            "type": "string",
-            "title": "Value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "value"
-        ],
-        "title": "Fingerprint"
       },
       "HTTPError": {
         "properties": {
@@ -1687,65 +1719,19 @@
         "type": "object",
         "title": "HTTPError"
       },
-      "HashedPassword": {
-        "properties": {
-          "value": {
-            "type": "string",
-            "title": "Value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "value"
-        ],
-        "title": "HashedPassword"
-      },
-      "Height": {
-        "properties": {
-          "value": {
-            "type": "number",
-            "exclusiveMinimum": false,
-            "title": "Value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "value"
-        ],
-        "title": "Height"
-      },
-      "ID": {
-        "properties": {
-          "value": {
-            "type": "integer",
-            "minimum": 0,
-            "title": "Value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "value"
-        ],
-        "title": "ID"
-      },
-      "Photo": {
-        "properties": {
-          "value": {
-            "type": "string",
-            "title": "Photo"
-          }
-        },
-        "type": "object",
-        "required": [
-          "value"
-        ],
-        "title": "Photo"
-      },
       "RegistrationType": {
         "type": "string",
         "enum": [
           "register",
           "unregister"
+        ],
+        "title": "RegistrationType"
+      },
+      "Sex": {
+        "type": "string",
+        "enum": [
+          "male",
+          "female"
         ],
         "title": "RegistrationType"
       },
@@ -1765,61 +1751,39 @@
         ],
         "title": "ShowStatusUpdateType"
       },
-      "Length": {
-        "properties": {
-          "value": {
-            "type": "number",
-            "exclusiveMinimum": false,
-            "title": "Value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "value"
-        ],
-        "title": "Length"
-      },
-      "Score": {
-        "properties": {
-          "value": {
-            "type": "integer",
-            "minimum": 0,
-            "title": "Value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "value"
-        ],
-        "title": "Score"
-      },
       "ScoreSchema": {
         "properties": {
           "id": {
-            "$ref": "#/components/schemas/ID"
+            "type": "integer",
+            "minimum": 0,
+            "title": "id"
           },
-          "usershow_id": {
-            "$ref": "#/components/schemas/ID"
+          "show_id": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "id"
           },
-          "animalshow_id": {
-            "$ref": "#/components/schemas/ID"
+          "animal_id": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "id"
           },
           "value": {
-            "$ref": "#/components/schemas/ScoreValue"
+            "type": "integer"
           },
           "is_archived": {
             "type": "boolean",
             "title": "Is Archived"
           },
           "dt_created": {
-            "$ref": "#/components/schemas/Datetime"
+            "type": "string"
           }
         },
         "type": "object",
         "required": [
           "id",
-          "usershow_id",
-          "animalshow_id",
+          "show_id",
+          "animal_id",
           "value",
           "is_archived",
           "dt_created"
@@ -1828,86 +1792,40 @@
       },
       "ScoreSchemaCreate": {
         "properties": {
-          "usershow_id": {
-            "$ref": "#/components/schemas/ID"
+          "show_id": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "id"
           },
-          "animalshow_id": {
-            "$ref": "#/components/schemas/ID"
+          "animal_id": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "id"
           },
           "value": {
-            "$ref": "#/components/schemas/ScoreValue"
+            "type": "integer"
           },
           "dt_created": {
-            "$ref": "#/components/schemas/Datetime"
+            "type": "string"
           }
         },
         "type": "object",
         "required": [
-          "usershow_id",
-          "animalshow_id",
+          "show_id",
+          "animal_id",
           "value",
           "dt_created"
         ],
         "title": "ScoreSchemaCreate"
       },
-      "ScoreValue": {
-        "properties": {
-          "value": {
-            "type": "integer",
-            "minimum": 0,
-            "title": "Value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "value"
-        ],
-        "title": "ScoreValue"
-      },
-      "Sex": {
-        "type": "string",
-        "enum": [
-          "male",
-          "female"
-        ],
-        "title": "Sex"
-      },
-      "ShowClass": {
-        "type": "string",
-        "enum": [
-          "one",
-          "two",
-          "three"
-        ],
-        "title": "ShowClass"
-      },
-      "ShowName": {
-        "properties": {
-          "value": {
-            "type": "string",
-            "title": "Value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "value"
-        ],
-        "title": "ShowName"
-      },
       "ShowRegisterAnimalResult": {
         "properties": {
           "record_id": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ID"
-              },
-              {
-                "type": "integer"
-              }
-            ]
+            "type": "integer",
+            "minimum": 0
           },
           "status": {
-            "$ref": "#/components/schemas/ShowRegisterAnimalStatus"
+            "type": "string"
           }
         },
         "type": "object",
@@ -1917,26 +1835,10 @@
         ],
         "title": "ShowRegisterAnimalResult"
       },
-      "ShowRegisterAnimalStatus": {
-        "type": "string",
-        "enum": [
-          "ok",
-          "error",
-          "unregok",
-          "unregerror"
-        ],
-        "title": "ShowRegisterAnimalStatus"
-      },
-      "ShowSchema": {
+      "ShowSchemaCreate": {
         "properties": {
-          "id": {
-            "$ref": "#/components/schemas/ID"
-          },
           "species_id": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/ID"
-              },
               {
                 "type": "integer"
               }
@@ -1945,30 +1847,83 @@
           "breed_id": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/ID"
-              },
+                "type": "integer"
+              }
+            ]
+          },
+          "status": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "show_class": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "standard_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "is_multi_breed": {
+            "type": "boolean",
+            "title": "Is Multi Breed"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "species_id",
+          "breed_id",
+          "status",
+          "country",
+          "show_class",
+          "name",
+          "standard_id",
+          "is_multi_breed"
+        ],
+        "title": "ShowSchemaCreate"
+      },
+      "ShowSchema": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 0,
+            "title": "id"
+          },
+          "species_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "breed_id": {
+            "anyOf": [
               {
                 "type": "integer"
               }
             ]
           },
           "status": {
-            "$ref": "#/components/schemas/ShowStatus"
+            "type": "string"
           },
           "country": {
-            "$ref": "#/components/schemas/Country"
+            "type": "string"
           },
           "show_class": {
-            "$ref": "#/components/schemas/ShowClass"
+            "type": "string"
           },
           "name": {
-            "$ref": "#/components/schemas/ShowName"
+            "type": "string"
           },
           "standard_id": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/ID"
-              },
               {
                 "type": "integer"
               }
@@ -2015,36 +1970,15 @@
         ],
         "title": "ShowSchemaReport"
       },
-      "ShowStatus": {
-        "type": "string",
-        "enum": [
-          "created",
-          "started",
-          "stopped",
-          "aborted"
-        ],
-        "title": "ShowStatus"
-      },
-      "Token": {
-        "properties": {
-          "value": {
-            "type": "string",
-            "title": "Value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "value"
-        ],
-        "title": "Token"
-      },
       "TotalScoreInfo": {
         "properties": {
           "record_id": {
-            "$ref": "#/components/schemas/ID"
+            "type": "integer",
+            "minimum": 0,
+            "title": "id"
           },
           "total": {
-            "$ref": "#/components/schemas/Score"
+            "type": "integer"
           },
           "count": {
             "type": "integer",
@@ -2066,7 +2000,7 @@
           "max_score": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/Score"
+                "type": "integer"
               },
               {
                 "type": "integer"
@@ -2076,7 +2010,7 @@
           "min_score": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/Score"
+                "type": "integer"
               },
               {
                 "type": "integer"
@@ -2095,52 +2029,27 @@
         ],
         "title": "TotalScoreInfo"
       },
-      "UserName": {
-        "properties": {
-          "value": {
-            "type": "string",
-            "title": "Value"
-          }
-        },
-        "type": "object",
-        "required": [
-          "value"
-        ],
-        "title": "UserName"
-      },
-      "UserRole": {
-        "type": "string",
-        "enum": [
-          "admin",
-          "guest",
-          "breeder",
-          "judge"
-        ],
-        "title": "UserRole"
-      },
       "UserSchema": {
         "properties": {
           "id": {
-            "$ref": "#/components/schemas/ID"
+            "type": "integer",
+            "minimum": 0,
+            "title": "id"
           },
           "email": {
-            "$ref": "#/components/schemas/Email"
-          },
-          "hashed_password": {
-            "$ref": "#/components/schemas/HashedPassword"
+            "type": "string"
           },
           "role": {
-            "$ref": "#/components/schemas/UserRole"
+            "type": "string"
           },
           "name": {
-            "$ref": "#/components/schemas/UserName"
+            "type": "string"
           }
         },
         "type": "object",
         "required": [
           "id",
           "email",
-          "hashed_password",
           "role",
           "name"
         ],
@@ -2149,16 +2058,16 @@
       "UserSchemaCreate": {
         "properties": {
           "email": {
-            "$ref": "#/components/schemas/Email"
+            "type": "string"
           },
           "hashed_password": {
-            "$ref": "#/components/schemas/HashedPassword"
+            "type": "string"
           },
           "role": {
-            "$ref": "#/components/schemas/UserRole"
+            "type": "string"
           },
           "name": {
-            "$ref": "#/components/schemas/UserName"
+            "type": "string"
           }
         },
         "type": "object",
@@ -2173,19 +2082,21 @@
       "UserSchemaUpdate": {
         "properties": {
           "id": {
-            "$ref": "#/components/schemas/ID"
+            "type": "integer",
+            "minimum": 0,
+            "title": "id"
           },
           "email": {
-            "$ref": "#/components/schemas/Email"
+            "type": "string"
           },
           "hashed_password": {
-            "$ref": "#/components/schemas/HashedPassword"
+            "type": "string"
           },
           "role": {
-            "$ref": "#/components/schemas/UserRole"
+            "type": "string"
           },
           "name": {
-            "$ref": "#/components/schemas/UserName"
+            "type": "string"
           }
         },
         "type": "object",
@@ -2198,19 +2109,16 @@
         ],
         "title": "UserSchemaUpdate"
       },
-      "Weight": {
+      "ShowStatusUpdate": {
         "properties": {
-          "value": {
-            "type": "number",
-            "exclusiveMinimum": false,
-            "title": "Value"
+          "type": {
+            "$ref": "#/components/schemas/ShowStatusUpdateType"
           }
         },
         "type": "object",
         "required": [
-          "value"
-        ],
-        "title": "Weight"
+          "type"
+        ]
       }
     }
   }

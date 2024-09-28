@@ -1,15 +1,15 @@
-from typing import List, Union
-
-from dependency_injector.wiring import Provide, inject
-from fastapi import Depends, status, APIRouter
-from fastapi.responses import PlainTextResponse
-from pydantic import NonNegativeInt, PositiveInt
+from typing import Union
 
 from container import Container
 from core.auth.schema.auth import AuthDetails, AuthSchemaSignIn
 from core.auth.service.auth import IAuthService
 from core.utils.exceptions import AuthServiceError
-from core.utils.types import ID, Token
+from core.utils.types import Token
+from dependency_injector.wiring import Provide, inject
+from fastapi import Depends, APIRouter, Response, status
+from fastapi.responses import PlainTextResponse
+
+from internal.src.api.router.utils.response import HTTPError
 
 router = APIRouter(
     prefix="/auth/jwt",
@@ -19,16 +19,23 @@ router = APIRouter(
 dep_auth = Depends(Provide[Container.auth_service])
 
 
-@router.post("/login")
+@router.post("/auth/jwt/authorization")
 @inject
-def login(
-        auth_details: AuthSchemaSignIn,
+def authorization(
+        auth_details: Union[Token, AuthSchemaSignIn],
+        response: Response,
         auth_service: IAuthService = dep_auth
-) -> AuthDetails:
-    try:
-        res = auth_service.signin(auth_details)
-    except AuthServiceError as e:
-        return PlainTextResponse(str(e))
+) -> Union[AuthDetails, HTTPError]:
+    if isinstance(auth_details, Token):
+        auth_service.logout(Token(value=auth_details))
+        return AuthDetails(access_token=Token(""), refresh_token=Token(""))
+    elif isinstance(auth_details, AuthSchemaSignIn):
+        try:
+            res = auth_service.signin(auth_details)
+        except AuthServiceError as e:
+            response.status_code = status.HTTP_401_UNAUTHORIZED
+            return HTTPError(f"{e.detail}")
+
     return res
 
 
