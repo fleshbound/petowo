@@ -27,6 +27,10 @@ class Configs(BaseSettings):
 
     REDIS_PORT: str = os.getenv("REDIS_PORT")
     REDIS_HOST: str = os.getenv("REDIS_HOST")
+    REDIS_DB: str = os.getenv("REDIS_DB")
+    REDIS_PASSWORD: str = os.getenv("REDIS_PASSWORD")
+    REDIS_USER_PASSWORD: str = os.getenv("REDIS_USER_PASSWORD")
+    REDIS_USER: str = os.getenv("REDIS_USER")
     auth_config: AuthConfig = AuthConfig(secret=os.getenv("AUTH_SECRET"), access_token_time=datetime.timedelta(minutes=15),
                              refresh_token_time=datetime.timedelta(minutes=15))
 

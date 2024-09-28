@@ -13,18 +13,6 @@ class Sex(str, enum.Enum):
     male = "female"
 
 
-class ByteA:
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v):
-        if not isinstance(v, bytes):
-            raise ValueError(f'`bytes` expected not {type(v)}')
-        return binascii.b2a_hex(v)
-
-
 @dataclass
 class UserName:
     value: str

@@ -8,8 +8,7 @@ from core.utils.types import Token
 from dependency_injector.wiring import Provide, inject
 from fastapi import Depends, APIRouter, Response, status
 from fastapi.responses import PlainTextResponse
-
-from internal.src.api.router.utils.response import HTTPError
+from api.router.utils.response import HTTPError
 
 router = APIRouter(
     prefix="/auth/jwt",

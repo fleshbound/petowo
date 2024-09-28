@@ -4,7 +4,7 @@ from typing import Optional
 from core.animal.schema.animal import AnimalSchemaCreate, AnimalSchema
 from core.utils.types import Sex, ID, AnimalName, Datetime, Weight, Height, Length
 
-from tech.handlers.input import InputHandler
+from tech.handlers.input import IInputHandler
 from tech.utils.exceptions import CancelInput, InvalidFloatInput, InvalidSexInput, InvalidBooleanInput
 from tech.utils.lang.langmodel import LanguageModel
 
@@ -21,7 +21,7 @@ class AnimalDTO:
     length: float
     has_defects: bool
     is_multicolor: bool
-    input_handler: InputHandler
+    input_handler: IInputHandler
     lm: LanguageModel
 
     def __init__(self,
@@ -36,7 +36,7 @@ class AnimalDTO:
                  length: Optional[float] = None,
                  has_defects: Optional[bool] = None,
                  is_multicolor: Optional[bool] = None,
-                 input_handler: Optional[InputHandler] = None):
+                 input_handler: Optional[IInputHandler] = None):
         if input_handler is not None:
             self.input_handler = input_handler
             self.lm = self.input_handler.lang_model
@@ -226,11 +226,12 @@ class AnimalDTO:
             height=Height(self.height),
             length=Length(self.length),
             has_defects=self.has_defects,
-            is_multicolor=self.is_multicolor
+            is_multicolor=self.is_multicolor,
+            photo=''.encode()
         )
 
     @classmethod
-    def from_schema(cls, other: AnimalSchema, input_handler: InputHandler):
+    def from_schema(cls, other: AnimalSchema, input_handler: IInputHandler):
         return cls(
             id=other.id.value,
             user_id=other.user_id.value,

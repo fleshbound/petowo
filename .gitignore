@@ -36,3 +36,5 @@ internal/database/data
 **/venv/**
 *.dtmp
 *.bkp
+*.rdb
+**/.data/**

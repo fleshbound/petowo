@@ -31,8 +31,11 @@ from repository.database.database import SqlAlchemyDatabase
 
 
 def redis_client():
-    return redis.Redis(host=configs.REDIS_HOST, port=int(configs.REDIS_PORT))
-
+    return redis.Redis(host=configs.REDIS_HOST,
+                       port=int(configs.REDIS_PORT))
+                       # password=configs.REDIS_USER_PASSWORD,
+                       # db=configs.REDIS_DB,
+                       # username=configs.REDIS_USER)
 
 class Container(containers.DeclarativeContainer):
     wiring_config = containers.WiringConfiguration(

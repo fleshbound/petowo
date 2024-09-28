@@ -4,8 +4,6 @@ from pydantic import BaseModel
 
 from core.utils.types import ID, AnimalName, Sex, Datetime, Length, Height, Weight
 
-from core.utils.types import ByteA
-
 
 class AnimalSchemaCreate(BaseModel):
     user_id: ID
@@ -18,7 +16,7 @@ class AnimalSchemaCreate(BaseModel):
     length: Length
     has_defects: bool
     is_multicolor: bool
-    photo: Optional[ByteA]
+    photo: Optional[bytes]
 
 
 class AnimalSchemaUpdate(BaseModel):
@@ -30,7 +28,7 @@ class AnimalSchemaUpdate(BaseModel):
     length: Length
     has_defects: bool
     is_multicolor: bool
-    photo: Optional[ByteA]
+    photo: Optional[bytes]
 
 
 class AnimalSchema(BaseModel):
@@ -45,7 +43,7 @@ class AnimalSchema(BaseModel):
     length: Length
     has_defects: bool
     is_multicolor: bool
-    photo: Optional[ByteA]
+    photo: Optional[bytes]
 
     @classmethod
     def from_create(cls, other: AnimalSchemaCreate):

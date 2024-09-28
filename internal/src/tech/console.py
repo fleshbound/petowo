@@ -2,32 +2,28 @@ import logging
 from typing import Optional
 
 from core.user.schema.user import UserRole
-from tech.handlers.animal import AnimalHandler
-from tech.handlers.auth import AuthHandler
-from tech.handlers.input import InputHandler
-from tech.handlers.show import ShowHandler
-from tech.handlers.user import UserHandler
+from tech.handlers.animal import IAnimalHandler
+from tech.handlers.auth import IAuthHandler
+from tech.handlers.input import IInputHandler
+from tech.handlers.show import IShowHandler
 from tech.utils.lang.langmodel import LanguageModel
 from tech.utils.types import Menus, ConsoleMessage, UserConsoleInfo
 
 
 class ConsoleHandler:
     user: Optional[UserConsoleInfo]
-    animal_handler: AnimalHandler
-    user_handler: UserHandler
-    show_handler: ShowHandler
-    auth_handler: AuthHandler
-    input_handler: InputHandler
+    animal_handler: IAnimalHandler
+    show_handler: IShowHandler
+    auth_handler: IAuthHandler
+    input_handler: IInputHandler
     lang_model: LanguageModel
 
     def __init__(self,
-                 animal_handler: AnimalHandler,
-                 show_handler: ShowHandler,
-                 auth_handler: AuthHandler,
-                 user_handler: UserHandler,
-                 input_handler: InputHandler):
+                 animal_handler: IAnimalHandler,
+                 show_handler: IShowHandler,
+                 auth_handler: IAuthHandler,
+                 input_handler: IInputHandler):
         self.animal_handler = animal_handler
-        self.user_handler = user_handler
         self.show_handler = show_handler
         self.auth_handler = auth_handler
         self.input_handler = input_handler

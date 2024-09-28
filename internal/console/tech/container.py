@@ -29,16 +29,19 @@ from auth_provider.storage.redis.auth import SessionStorage
 from config import configs
 from repository.database.database import SqlAlchemyDatabase
 from tech.console import ConsoleHandler
-from tech.handlers.animal import AnimalHandler
-from tech.handlers.auth import AuthHandler
-from tech.handlers.input import InputHandler
-from tech.handlers.show import ShowHandler
-from tech.handlers.user import UserHandler
+from tech.handlers.service.animal import ServiceAnimalHandler
+from tech.handlers.service.auth import ServiceAuthHandler
+from tech.handlers.service.input import StdIOInputHandler
+from tech.handlers.service.show import ServiceShowHandler
 from tech.utils.lang.impl.rulang import RuLanguageModel
 
 
 def redis_client():
-    return redis.Redis(host=configs.REDIS_HOST, port=int(configs.REDIS_PORT))
+    return redis.Redis(host=configs.REDIS_HOST,
+                       port=int(configs.REDIS_PORT))
+                       # password=configs.REDIS_USER_PASSWORD,
+                       # db=configs.REDIS_DB,
+                       # username=configs.REDIS_USER)
 
 
 class Container(containers.DeclarativeContainer):
@@ -100,21 +103,19 @@ class Container(containers.DeclarativeContainer):
     auth_service = providers.Factory(AuthService, user_service=user_service, auth_provider=auth_provider)
 
     lang_model = providers.Singleton(RuLanguageModel)
-    input_handler = providers.Factory(InputHandler, lang_model=lang_model)
-    animal_handler = providers.Factory(AnimalHandler, animal_service=animal_service, show_service=show_service,
+    input_handler = providers.Factory(StdIOInputHandler, lang_model=lang_model)
+    animal_handler = providers.Factory(ServiceAnimalHandler, animal_service=animal_service, show_service=show_service,
                                        input_handler=input_handler)
-    user_handler = providers.Factory(UserHandler)
-    show_handler = providers.Factory(ShowHandler,
+    show_handler = providers.Factory(ServiceShowHandler,
                                      show_service=show_service,
                                      usershow_service=usershow_service,
                                      score_service=score_service,
                                      input_handler=input_handler,
                                      animalshow_service=animalshow_service,
                                      animal_service=animal_service)
-    auth_handler = providers.Factory(AuthHandler, auth_service=auth_service, user_service=user_service,
+    auth_handler = providers.Factory(ServiceAuthHandler, auth_service=auth_service, user_service=user_service,
                                      input_handler=input_handler)
     console_handler = providers.Factory(ConsoleHandler, animal_handler=animal_handler,
                  show_handler=show_handler,
                  auth_handler=auth_handler,
-                 user_handler=user_handler,
                  input_handler=input_handler)

@@ -1,7 +1,7 @@
 import datetime
 from typing import Optional
 
-from tech.handlers.input import InputHandler
+from tech.handlers.input import IInputHandler
 from tech.utils.exceptions import CancelInput, InvalidScoreInput
 from tech.utils.lang.langmodel import LanguageModel
 from core.show.schema.score import ScoreSchemaCreate
@@ -15,7 +15,7 @@ class ScoreDTO:
     value: int
     is_archived: bool
     dt_created: datetime.datetime
-    input_handler: InputHandler
+    input_handler: IInputHandler
     lm: LanguageModel
 
     def __init__(self,
@@ -25,7 +25,7 @@ class ScoreDTO:
                  dt_created: Optional[datetime.datetime] = None,
                  value: Optional[int] = None,
                  is_archived: Optional[bool] = None,
-                 input_handler: Optional[InputHandler] = None):
+                 input_handler: Optional[IInputHandler] = None):
         if input_handler is not None:
             self.input_handler = input_handler
             self.lm = self.input_handler.lang_model

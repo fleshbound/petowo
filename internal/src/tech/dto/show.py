@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from tech.handlers.input import InputHandler
+from tech.handlers.input import IInputHandler
 from tech.utils.exceptions import CancelInput, InvalidBooleanInput
 from tech.utils.lang.langmodel import LanguageModel
 from core.show.schema.show import ShowSchemaCreate, ShowSchema, ShowClass, ShowStatus
@@ -19,7 +19,7 @@ class ShowDTO:
     name: str
     standard_id: Optional[int] = None
     is_multi_breed: bool
-    input_handler: InputHandler
+    input_handler: IInputHandler
     lm: LanguageModel
 
     def print(self):
@@ -34,17 +34,17 @@ class ShowDTO:
         print(f"{self.lm.out_standard_id}: {'-' if self.standard_id is None else self.standard_id}")
         print(f"{self.lm.out_species_id}: {'-' if self.species_id is None else self.species_id}")
 
-    def __init__(self, input_handler: Optional[InputHandler] = None,
-        id: Optional[int] = None,
-        species_id: Optional[int] = None,
-        breed_id: Optional[int] = None,
-        status: Optional[str] = None,
-        country: Optional[str] = None,
-        show_class: Optional[str] = None,
-        name: Optional[str] = None,
-        standard_id: Optional[int] = None,
-        is_multi_breed: Optional[bool] = None
-    ):
+    def __init__(self, input_handler: Optional[IInputHandler] = None,
+                 id: Optional[int] = None,
+                 species_id: Optional[int] = None,
+                 breed_id: Optional[int] = None,
+                 status: Optional[str] = None,
+                 country: Optional[str] = None,
+                 show_class: Optional[str] = None,
+                 name: Optional[str] = None,
+                 standard_id: Optional[int] = None,
+                 is_multi_breed: Optional[bool] = None
+                 ):
         if input_handler is not None:
             self.input_handler = input_handler
             self.lm = self.input_handler.lang_model
@@ -189,7 +189,7 @@ class ShowDTO:
         )
 
     @classmethod
-    def from_schema(cls, other: ShowSchema, input_handler: InputHandler):
+    def from_schema(cls, other: ShowSchema, input_handler: IInputHandler):
         standard_id = other.standard_id if other.standard_id is None else other.standard_id.value
         species_id = other.species_id if other.species_id is None else other.species_id.value
         breed_id = other.breed_id if other.breed_id is None else other.breed_id.value
