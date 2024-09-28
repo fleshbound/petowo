@@ -5,15 +5,17 @@ from fastapi import APIRouter, Depends, status
 from fastapi.responses import PlainTextResponse
 from pydantic import PositiveInt
 
-from container.container import Container
+from container import Container
 from core.animal.schema.animal import AnimalSchemaCreate, AnimalSchema, AnimalSchemaDelete
 from core.animal.service.animal import IAnimalService
 from core.utils.exceptions import NotFoundRepoError
 from core.utils.types import ID
 
+from core.animal.schema.animal import AnimalSchemaUpdate
+
 router = APIRouter(
-    prefix="/animal",
-    tags=["Animal"]
+    prefix="/animals",
+    tags=["Animals"]
 )
 
 dep_animal = Depends(Provide[Container.animal_service])
@@ -39,44 +41,29 @@ async def get_animals(
     return animal_service.get_all(skip, limit)
 
 
-# @router.get("/{animal_id}")
-# @inject
-# async def get_animal_by_id(
-#         animal_id: PositiveInt,
-#         animal_service: IAnimalService = dep_animal
-# ) -> AnimalSchema:
-#     return animal_service.get_by_id(ID(animal_id))
-#
-
-@router.get("/user/{user_id}")
+@router.get("/{animal_id}")
 @inject
-async def get_animal_by_user(
-        user_id: PositiveInt,
+async def get_animal_by_id(
+        animal_id: PositiveInt,
         animal_service: IAnimalService = dep_animal
-) -> List[AnimalSchema]:
-    try:
-        res = animal_service.get_by_user_id(ID(user_id))
-    except NotFoundRepoError:
-        return []
-    return res
+) -> AnimalSchema:
+    return animal_service.get_by_id(ID(animal_id))
 
+@router.delete("/{animal_id}")
+@inject
+async def delete_animal(
+        animal_id: PositiveInt,
+        animal_service: IAnimalService = dep_animal
+) -> AnimalSchemaDelete:
+    return animal_service.delete(ID(animal_id))
 
-# @router.delete("/{animal_id}")
-# @inject
-# async def delete_animal(
-#         animal_id: PositiveInt,
-#         animal_service: IAnimalService = dep_animal
-# ) -> AnimalSchemaDelete:
-#     return animal_service.delete(ID(animal_id))
-#
-#
-# @router.post("/{animal_id}")
-# @inject
-# async def update_animal(
-#         animal_update: AnimalSchemaUpdate,
-#         animal_service: IAnimalService = dep_animal
-# ) -> AnimalSchema:
-#     return animal_service.update(animal_update)
+@router.post("/{animal_id}")
+@inject
+async def update_animal(
+        animal_update: AnimalSchemaUpdate,
+        animal_service: IAnimalService = dep_animal
+) -> AnimalSchema:
+    return animal_service.update(animal_update)
 
 @router.delete("/{animal_id}")
 @inject

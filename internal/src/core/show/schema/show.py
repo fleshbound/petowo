@@ -162,8 +162,8 @@ class ShowRegisterAnimalResult(BaseModel):
 
 @enum.unique
 class ShowRegisterUserStatus(str, enum.Enum):
-    register_ok = "regok"
-    register_error = "regerror"
+    register_ok = "ok"
+    register_error = "error"
     unregister_ok = "unregok"
     unregister_error = "unregerror"
 

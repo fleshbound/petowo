@@ -1,14 +1,28 @@
+import binascii
 import datetime
 import enum
+import re
 from dataclasses import dataclass, field
 
-from pydantic import NonNegativeInt, EmailStr, PositiveFloat, BaseModel
+from pydantic import NonNegativeInt, PositiveFloat, BaseModel
 
 
 @enum.unique
 class Sex(str, enum.Enum):
     female = "male"
     male = "female"
+
+
+class ByteA:
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        if not isinstance(v, bytes):
+            raise ValueError(f'`bytes` expected not {type(v)}')
+        return binascii.b2a_hex(v)
 
 
 @dataclass
@@ -73,10 +87,11 @@ class ShowName:
 
 @dataclass
 class Email:
-    value: EmailStr
+    value: str
 
     def __post_init__(self):
-        pass
+        if not re.match(r'[^@]+@[^@]+\.[^@]+', self.value):
+            raise ValueError('Email value must be valid email address')
 
     def __eq__(self, other) -> bool:
         if not isinstance(other, Email):

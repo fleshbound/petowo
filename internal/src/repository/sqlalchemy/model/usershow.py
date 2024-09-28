@@ -11,7 +11,7 @@ class UserShowORM(Base):
     __tablename__ = 'usershow'
 
     id: Mapped[NonNegativeInt] = mapped_column(primary_key=True)
-    user_id: Mapped[NonNegativeInt] = mapped_column(ForeignKey(column='user.id'), nullable=False)
+    user_id: Mapped[NonNegativeInt] = mapped_column(ForeignKey(column='user.id'), nullable=True)
     show_id: Mapped[NonNegativeInt] = mapped_column(ForeignKey(column='show.id'), nullable=False)
     is_archived: Mapped[bool] = mapped_column(Boolean, nullable=False)
     

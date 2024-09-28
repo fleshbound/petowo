@@ -13,18 +13,49 @@ def migrate_db(is_test_db: bool):
 
 
 def generate_info(is_test_db: bool, rows: int):
-    db = DatabaseMaker(is_test_db=is_test_db)
+    db = DatabaseMaker(is_test_db=False)
     db.drop_tables()
     db.create_tables()
     InfoGenerator(rows).generate_info()
     db.copy_tables()
 
 
+def clean_generate_info(rows: int):
+    InfoGenerator(rows).generate_info()
+
+
+def clean_copy_info():
+    db = DatabaseMaker(is_test_db=False)
+    db.drop_tables()
+    db.create_tables()
+    db.copy_tables()
+
+
+def generate_test_info():
+    for rows in range(0, 190000, 10000):
+        InfoGenerator(rows).generate_test_info()
+
+
+def generate_all():
+    db1 = DatabaseMaker(is_test_db=True)
+    db1.drop_tables()
+    db1.create_tables()
+    db = DatabaseMaker(is_test_db=False)
+    db.drop_tables()
+    db.create_tables()
+    InfoGenerator(200).generate_info()
+    db1.copy_tables()
+    db.copy_tables()
+
+
 if __name__ == "__main__":
-    load_dotenv("/home/sheglar/bmstu/petowo/ppo/internal/.env")
+    load_dotenv("/app/.env")
     args = sys.argv
 
-    if len(args) > 4 or len(args) == 1:
+    if len(args) == 1:
+        generate_test_info()
+        exit(0)
+    if len(args) > 4:
         print('Invalid number of parameters (must be > 0, < 4)')
         exit(1)
     if len(args) == 2:
@@ -33,6 +64,15 @@ if __name__ == "__main__":
         elif args[1] == 'main':
             migrate_db(is_test_db=False)
             print("done setting main db")
+        elif args[1] == 'copy':
+            print('copy')
+            clean_copy_info()
+        elif args[1] == '10':
+            print('gen 10')
+            clean_generate_info(rows=10)
+        elif args[1] == 'all':
+            generate_all()
+            print("done")
         else:
             print('Invalid parameter: must be "test" or "main"')
             exit(1)

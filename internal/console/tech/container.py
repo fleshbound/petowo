@@ -1,4 +1,5 @@
 import redis
+
 from core.animal.service.impl.animal import AnimalService
 from core.auth.service.impl.auth import AuthService
 from core.breed.service.impl.breed import BreedService
@@ -23,11 +24,17 @@ from repository.sqlalchemy.species import SqlAlchemySpeciesRepository
 from repository.sqlalchemy.standard import SqlAlchemyStandardRepository
 from repository.sqlalchemy.user import SqlAlchemyUserRepository
 from repository.sqlalchemy.usershow import SqlAlchemyUserShowRepository
-
 from auth_provider.provider.auth import AuthProvider
 from auth_provider.storage.redis.auth import SessionStorage
-from config.config import configs
-from database.database import SqlAlchemyDatabase
+from config import configs
+from repository.database.database import SqlAlchemyDatabase
+from tech.console import ConsoleHandler
+from tech.handlers.animal import AnimalHandler
+from tech.handlers.auth import AuthHandler
+from tech.handlers.input import InputHandler
+from tech.handlers.show import ShowHandler
+from tech.handlers.user import UserHandler
+from tech.utils.lang.impl.rulang import RuLanguageModel
 
 
 def redis_client():
@@ -35,16 +42,7 @@ def redis_client():
 
 
 class Container(containers.DeclarativeContainer):
-    wiring_config = containers.WiringConfiguration(
-        modules=[
-            "api.router.animal",
-            "api.router.score",
-            "api.router.user",
-            "api.router.auth",
-            "api.router.show",
-        ]
-    )
-    db = providers.Singleton(SqlAlchemyDatabase, db_url=configs.DATABASE_URL)
+    db = providers.Singleton(SqlAlchemyDatabase, db_url=configs.DATABASE_URL, echo=False)
 
     user_repo = providers.Factory(SqlAlchemyUserRepository, session_factory=db.provided.session)
     user_service = providers.Factory(UserService, user_repo=user_repo)
@@ -100,3 +98,23 @@ class Container(containers.DeclarativeContainer):
     auth_storage = providers.Singleton(SessionStorage, redis_client=providers.Callable(redis_client))
     auth_provider = providers.Factory(AuthProvider, config=configs.auth_config, session_storage=auth_storage)
     auth_service = providers.Factory(AuthService, user_service=user_service, auth_provider=auth_provider)
+
+    lang_model = providers.Singleton(RuLanguageModel)
+    input_handler = providers.Factory(InputHandler, lang_model=lang_model)
+    animal_handler = providers.Factory(AnimalHandler, animal_service=animal_service, show_service=show_service,
+                                       input_handler=input_handler)
+    user_handler = providers.Factory(UserHandler)
+    show_handler = providers.Factory(ShowHandler,
+                                     show_service=show_service,
+                                     usershow_service=usershow_service,
+                                     score_service=score_service,
+                                     input_handler=input_handler,
+                                     animalshow_service=animalshow_service,
+                                     animal_service=animal_service)
+    auth_handler = providers.Factory(AuthHandler, auth_service=auth_service, user_service=user_service,
+                                     input_handler=input_handler)
+    console_handler = providers.Factory(ConsoleHandler, animal_handler=animal_handler,
+                 show_handler=show_handler,
+                 auth_handler=auth_handler,
+                 user_handler=user_handler,
+                 input_handler=input_handler)

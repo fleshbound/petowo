@@ -6,8 +6,8 @@ import psycopg2
 
 class ConfigSQL:
     def __init__(self):
-        # path = os.getenv("SQL_PATH")
-        path = "/app/database/sql"
+        path = os.getenv("SQL_PATH")
+        # path = "/app/database/sql"
         self.CREATE_FILE = f"{path}/create_tables.sql"
         self.DROP_FILE = f"{path}/drop_tables.sql"
         self.COPY_FILE = f"{path}/copy_tables.sql"
@@ -22,20 +22,20 @@ class DatabaseMaker:
         print("PSQL: Creating connection... ", end="")
         try:
             self.sqlconfig = ConfigSQL()
-            # self.connection = psycopg2.connect(
-            #     database=os.getenv("DB_TEST_NAME") if is_test_db else os.getenv("DB_NAME"),
-            #     user=os.getenv("DB_USER"),
-            #     password=os.getenv("DB_PWD"),
-            #     host=os.getenv("DB_HOST"),
-            #     port=os.getenv("DB_PORT")
-            # )
             self.connection = psycopg2.connect(
-                database="test_postgres" if is_test_db else "postgres",
-                user="postgres",
-                password="postgres",
-                host="postgres",
-                port=5432
+                database=os.getenv("DB_TEST_NAME") if is_test_db else os.getenv("DB_NAME"),
+                user=os.getenv("DB_USER"),
+                password=os.getenv("DB_PWD"),
+                host=os.getenv("DB_HOST"),
+                port=os.getenv("DB_PORT")
             )
+            # self.connection = psycopg2.connect(
+            #     database="test_postgres" if is_test_db else "postgres",
+            #     user="postgres",
+            #     password="postgres",
+            #     host="postgres",
+            #     port=5432
+            # )
             self.connection.autocommit = True
             self.cursor = self.connection.cursor()
             print("DONE")

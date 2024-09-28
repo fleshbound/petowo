@@ -2,6 +2,7 @@
 
 #alembic revision --autogenerate
 #alembic upgrade head
+
 cd /app/database/py && python3 setdb.py main
 
 cd /app/src || exit 1

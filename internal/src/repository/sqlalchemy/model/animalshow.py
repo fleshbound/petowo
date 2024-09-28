@@ -11,7 +11,7 @@ class AnimalShowORM(Base):
     __tablename__ = 'animalshow'
 
     id: Mapped[NonNegativeInt] = mapped_column(primary_key=True)
-    animal_id: Mapped[NonNegativeInt] = mapped_column(ForeignKey(column='animal.id'), nullable=False)
+    animal_id: Mapped[NonNegativeInt] = mapped_column(ForeignKey(column='animal.id'), nullable=True)
     show_id: Mapped[NonNegativeInt] = mapped_column(ForeignKey(column='show.id'), nullable=False)
     is_archived: Mapped[bool] = mapped_column(Boolean, nullable=False)
 
